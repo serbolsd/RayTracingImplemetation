@@ -5,6 +5,7 @@ Point3D::operator-() const {
   return Point3D(-x, -y, -z);
 }
 
+
 Point3D
 Point3D::operator+() const {
   return *this;

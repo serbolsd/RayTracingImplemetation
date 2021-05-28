@@ -8,7 +8,7 @@ Plane::Plane(const Point3D point, const JDVector3& normal) {
 const double Plane::kEpsilon = 0.00001;
 
 bool 
-Plane::hit(const Ray& ray, double& tmin, ShadeRec& s) const {
+Plane::hit(const Ray& ray, double& tmin, ShadeRec& s) {
   double t = pointVecDot((m_point - ray.m_origin), m_normal) / (ray.m_direction.dot(m_normal));
   if (t > kEpsilon) {
     tmin = t;

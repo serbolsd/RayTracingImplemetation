@@ -1,3 +1,14 @@
+/*****************************************************************************/
+/**
+ * @file    point3D.h
+ * @author  Sergio Diaz (idv17c.sdiaz@uartesdigitales.edu.mx)
+ * @date    21/05/2021
+ * @brief   A basic class for a point 3d
+ *
+ *
+ * @bug	    No known bugs.
+ */
+ /*****************************************************************************/
 #pragma once
 #include "Prerequisites.h"
 #include "jdVector3.h"
@@ -293,7 +304,7 @@ class Point3D
 
 };
 
-double 
+__forceinline double 
 pointVecDot(const Point3D& point, const JDVector3& vec) {
   return ((point.x * vec.x) + (point.y * vec.y) + (point.z * vec.z));
 };

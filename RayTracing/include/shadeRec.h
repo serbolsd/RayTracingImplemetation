@@ -1,3 +1,13 @@
+/**
+ * @file    shadeRec.h
+ * @author  Sergio Diaz (idv17c.sdiaz@uartesdigitales.edu.mx)
+ * @date    21/05/2021
+ * @brief   A basic class for shadeRec
+ *
+ *
+ * @bug	    No known bugs.
+ */
+ /*****************************************************************************/
 #pragma once
 #include "point3D.h"
 #include "Prerequisites.h"
@@ -7,36 +17,68 @@
 class World;
 
 class ShadeRec {
-public:
+ public:
+  /**
+			* @brief constructo with world
+			* @param world is a pointer to the world to use
+			*/
+  ShadeRec(World* world);
 
-  ShadeRec(World* wr); // constructor
+  /**
+   * @brief copy constructor
+   * @param sr is the other ShadeRec to copy
+   */
+  //ShadeRec(const ShadeRec* sr);
 
-  ShadeRec(const ShadeRec* sr); // copy constructor
+  /**
+   * @brief defaul destructor
+   */
+  ~ShadeRec() {};
 
-  ~ShadeRec() {}; // destructor
-
-  ShadeRec& // assignment operator
+  /**
+   * @brief assignment operator
+   * @param rhs is the other ShadeRec to copy
+   */
+  ShadeRec&
   operator= (const ShadeRec& rhs);
 
+  /**
+   * @brief to check if the ray hitted and objetc
+   */
+  bool m_hitAnObject;
 
-  bool m_hitAnObject; // did the ray hit an object?
-  Point3D m_localHitPoint; // world coordinates of hit point 
-  JDVector3 m_normal; // normal at hit point
-  sf::Color m_color; // used in Chapter 3 only
-  World* m_world; // world reference for shading
+  /**
+   * @brief world coordinates of hit point 
+   */
+  Point3D m_localHitPoint;
+
+  /**
+   * @brief normal at hit point
+   */
+  JDVector3 m_normal;
+
+  /**
+   * @brief use for debug
+   */
+  sf::Color m_color; 
+
+  /**
+   * @brief world reference for shading
+   */
+  World* m_world;
 };
 
-ShadeRec::ShadeRec(World* wr) 
+inline ShadeRec::ShadeRec(World* wr) 
   : m_hitAnObject(false),
     m_localHitPoint(0),
     m_normal(),
     m_color(sf::Color::Black),
     m_world(wr){}
 
-inline 
-ShadeRec::ShadeRec(const ShadeRec& sr) {
-  *this = sr;
-}
+//inline 
+//ShadeRec::ShadeRec(const ShadeRec& sr) {
+//  *this = sr;
+//}
 
 inline ShadeRec& 
 ShadeRec::operator=(const ShadeRec& rhs) {

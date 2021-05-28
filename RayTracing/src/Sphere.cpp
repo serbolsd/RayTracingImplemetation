@@ -1,19 +1,19 @@
 #include "Sphere.h"
 
-Sphere::Sphere(const Point3D point, const JDVector3& normal) {
-  m_point = point;
-  m_normal = normal;
+Sphere::Sphere(const Point3D& pos, const float& radius) {
+  m_position = pos;
+  m_radius = radius;
 }
 
 const double Sphere::kEpsilon = 0.00001;
 
 bool
-Sphere::hit(const Ray& ray, double& tmin, ShadeRec& sr) const {
+Sphere::hit(const Ray& ray, double& tmin, ShadeRec& sr) {
   double t;
   JDVector3 temp;
-  temp.x = ray.m_origin.x - m_center.x;
-  temp.y = ray.m_origin.y - m_center.y;
-  temp.z = ray.m_origin.z - m_center.z;
+  temp.x = ray.m_origin.x - m_position.x;
+  temp.y = ray.m_origin.y - m_position.y;
+  temp.z = ray.m_origin.z - m_position.z;
   double a = ray.m_direction.dot(ray.m_direction);
   double b = 2.0 * temp.dot(ray.m_direction);
   double c = temp.dot(temp) - (m_radius * m_radius);

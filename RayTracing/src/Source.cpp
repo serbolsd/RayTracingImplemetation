@@ -1,7 +1,12 @@
 #include <SFML/Graphics.hpp>
+#include "World.h"
 
 int main()
 {
+  World w;
+  w.build(400, 400);
+  w.renderScene();
+  return 0;
   sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
   // Create a image filled with black color
   sf::Image image;
