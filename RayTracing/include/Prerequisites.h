@@ -13,3 +13,13 @@
 
 #include <jdPrerequisitesUtil.h>
 using namespace jdEngineSDK;
+
+FORCEINLINE float randomFloat() {
+  float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+  return r;
+}
+
+FORCEINLINE int randomInt() {
+  int i = rand();
+  return i;
+}

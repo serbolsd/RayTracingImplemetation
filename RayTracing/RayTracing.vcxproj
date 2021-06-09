@@ -159,12 +159,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\geometriObject.h" />
+    <ClInclude Include="include\jlSampler.h" />
+    <ClInclude Include="include\jlSJittered.h" />
     <ClInclude Include="include\Plane.h" />
     <ClInclude Include="include\point3D.h" />
     <ClInclude Include="include\Prerequisites.h" />
     <ClInclude Include="include\ray.h" />
     <ClInclude Include="include\shadeRec.h" />
     <ClInclude Include="include\Sphere.h" />
+    <ClInclude Include="include\tMultipleObject.h" />
     <ClInclude Include="include\Tracer.h" />
     <ClInclude Include="include\tSingleSphere.h" />
     <ClInclude Include="include\ViewPlane.h" />

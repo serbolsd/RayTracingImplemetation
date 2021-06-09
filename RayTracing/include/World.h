@@ -19,6 +19,8 @@
 //#include “RGBColor.h”
 #include "Sphere.h"
 #include "Tracer.h"
+#include "ray.h"
+#include "geometriObject.h"
 
 class World {
 public:
@@ -54,6 +56,9 @@ public:
   void
   openWindow(const int width, const int height);
 
+  /**
+   * @brief function to update the image
+   */
   void
   updateRender();
 
@@ -65,13 +70,61 @@ public:
                 const int column,
                 const sf::Color& pixel_color);
 
+  /**
+   * @brief function to add objets in the vector with objects in scene
+   */
+  void
+  addObject(GeometricObject* obj) {
+    m_objects.push_back(obj);
+  };
+
+  /**
+   * @brief function to check hits with many objects
+   */
+  ShadeRec
+  hirBareBonesObjects(const Ray& ray);
+
+  std::vector<GeometricObject*> m_objects;
+
+
+  /**
+   * @brief view plane
+   */
   ViewPlane m_vp;
+
+  /**
+   * @brief background color
+   */
   sf::Color m_backgroundColor = sf::Color::Black;
+
+  /**
+   * @brief a sphere
+   */
   Sphere m_sphere;
+
+  /**
+   * @brief pointer to tracer, can be to a single sphere or multiple objects
+   */
   Tracer* m_pTracer;
   
+  /**
+   * @brief window
+   */
   sf::RenderWindow* m_window = nullptr;
+
+  /**
+   * @brief image
+   * @note where the pixels are painted
+   */
   sf::Image m_image;
+
+  /**
+   * @brief texture which is connected with the image
+   */
   sf::Texture m_texture;
+
+  /**
+   * @brief sprtie which is setted the texture
+   */
   sf::Sprite m_sprite;
 };

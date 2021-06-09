@@ -9,7 +9,7 @@ const double Sphere::kEpsilon = 0.00001;
 
 bool
 Sphere::hit(const Ray& ray, double& tmin, ShadeRec& sr) {
-  double t;
+  double t=0;
   JDVector3 temp;
   temp.x = ray.m_origin.x - m_position.x;
   temp.y = ray.m_origin.y - m_position.y;

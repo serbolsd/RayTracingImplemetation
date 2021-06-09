@@ -11,10 +11,24 @@
  */
  /*****************************************************************************/
 #pragma once
+#include "jlSampler.h"
+#include "jlSJittered.h"
 
 class ViewPlane
 {
  public:
+
+  void 
+  setSampler(Sampler* s) {
+    if (nullptr != m_pSampler)
+    {
+      delete m_pSampler;
+      m_pSampler = nullptr;
+    }
+    m_numSamplers = s->m_numSamples;
+    m_pSampler = s;
+  };
+
   /**
    * @brief width of view
    */
@@ -40,4 +54,10 @@ class ViewPlane
    */
   float m_invGamma;
 
+  /**
+   * @brief num samplers
+   */
+  int m_numSamplers;
+
+  Sampler* m_pSampler = nullptr;
 };

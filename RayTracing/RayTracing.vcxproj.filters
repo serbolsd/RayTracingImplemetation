@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Archivos de encabezado\Samplers">
+      <UniqueIdentifier>{03696001-7978-432c-a1b2-5776df7b1d9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Samplers">
+      <UniqueIdentifier>{ffa32158-d37e-44a7-8d09-b2558e270474}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Source.cpp">
@@ -64,6 +70,15 @@
     </ClInclude>
     <ClInclude Include="include\tSingleSphere.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tMultipleObject.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlSampler.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlSJittered.h">
+      <Filter>Archivos de encabezado\Samplers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
