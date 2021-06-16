@@ -151,6 +151,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\jlCamera.cpp" />
+    <ClCompile Include="src\jlCPinhole.cpp" />
+    <ClCompile Include="src\jlSampler.cpp" />
     <ClCompile Include="src\Plane.cpp" />
     <ClCompile Include="src\point3D.cpp" />
     <ClCompile Include="src\Source.cpp" />
@@ -159,8 +162,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\geometriObject.h" />
+    <ClInclude Include="include\jlCamera.h" />
+    <ClInclude Include="include\jlCPinhole.h" />
     <ClInclude Include="include\jlSampler.h" />
     <ClInclude Include="include\jlSJittered.h" />
+    <ClInclude Include="include\jRegularSampler.h" />
     <ClInclude Include="include\Plane.h" />
     <ClInclude Include="include\point3D.h" />
     <ClInclude Include="include\Prerequisites.h" />

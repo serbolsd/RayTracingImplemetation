@@ -12,6 +12,7 @@
 #pragma once
 #include "Prerequisites.h"
 #include <jdPoint.h>
+#include <jdVector2.h>
 class Sampler
 {
  public:
@@ -35,7 +36,17 @@ class Sampler
    * @brief set up the randomly shuffled indices
    */
   void
-  setupShuffledIndices() {};
+  setupShuffledIndices() {
+    m_shuffledIndices.reserve(m_numSamples * m_numSets);
+    std::vector<int> indices;
+    for (int j = 0; j < m_numSamples; j++)
+      indices.push_back(j);
+    for (int p = 0; p < m_numSets; p++) {
+      random_shuffle(indices.begin(), indices.end());
+      for (int j = 0; j < m_numSamples; j++)
+        m_shuffledIndices.push_back(indices[j]);
+    }
+  };
 
   /**
    * @brief randomly shuffle the samples in each pattern
@@ -46,14 +57,21 @@ class Sampler
   /**
    * @brief get next sample on unit square
    */
-  JDPoint
-  sample_unit_square(){
+  JDVector2
+  sampleUnitSquare(){
     if (m_count % m_numSamples == 0) // start of a new pixel
       m_jump = (randomInt() % m_numSets) * m_numSamples;
-    return (m_samples[m_jump + m_count++ % m_numSamples]);
+    return (diskSamples[m_jump + m_count++ % m_numSamples]);
+    //return (m_samples[m_jump + m_shuffledIndices[m_jump+ m_count++ % m_numSamples]]);
     //simple
-    //return (m_samples[m_count++ % (m_numSamples * m_numSets)]);
+    //int index = m_count++ % (m_numSamples * m_numSets);
+    //if (index >= m_samples.size())
+    //  index = m_samples.size() - 1;
+    //return (m_samples[index]);
   };
+
+  void
+  mapSamplerToUnitDisk();
 
  public:
   /**
@@ -69,7 +87,8 @@ class Sampler
   /**
    * @brief sample points on a unit square
    */
-  std::vector<JDPoint> m_samples;
+  std::vector<JDVector2> m_samples;
+  std::vector<JDVector2> diskSamples;
 
   /**
    * @brief shuffled samples array indices

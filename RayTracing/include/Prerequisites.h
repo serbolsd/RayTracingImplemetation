@@ -14,12 +14,20 @@
 #include <jdPrerequisitesUtil.h>
 using namespace jdEngineSDK;
 
-FORCEINLINE float randomFloat() {
+FORCEINLINE float 
+randomFloat() {
   float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
   return r;
 }
 
-FORCEINLINE int randomInt() {
-  int i = rand();
-  return i;
+FORCEINLINE int 
+randomInt() {
+  return rand();
 }
+
+FORCEINLINE void
+setRandSeed(const int seed) {
+  srand(seed);
+}
+
+#define PI 3.1415
