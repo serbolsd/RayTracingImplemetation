@@ -126,17 +126,17 @@ void World::updateRender() {
     for (int y = 0; y < m_vp.m_height; y++) {
       pixel_color = sf::Color::Black;
       //With Sampler class
-      //for (int i = 0; i < m_vp.m_numSamplers; i++)
-      //{
-      //  auto su = m_vp.m_pSampler->sampleUnitSquare();
-      //  pp.x = m_vp.m_pixelSize * (x - 0.5 * m_vp.m_width + su.x);
-      //  pp.y = m_vp.m_pixelSize * (y - 0.5 * m_vp.m_height + su.y);
-      //  ray.m_origin = { (int)pp.x, (int)pp.y, (int)zw };
-      //  pixel_color = m_pTracer->traceRay(ray);
-      //  pColor.x += pixel_color.r;
-      //  pColor.y += pixel_color.g;
-      //  pColor.z += pixel_color.b;
-      //}
+      for (int i = 0; i < m_vp.m_numSamplers; i++)
+      {
+        auto su = m_vp.m_pSampler->sampleUnitSquare();
+        pp.x = m_vp.m_pixelSize * (x - 0.5 * m_vp.m_width + su.x);
+        pp.y = m_vp.m_pixelSize * (y - 0.5 * m_vp.m_height + su.y);
+        ray.m_origin = { (int)pp.x, (int)pp.y, (int)zw };
+        pixel_color = m_pTracer->traceRay(ray);
+        pColor.x += pixel_color.r;
+        pColor.y += pixel_color.g;
+        pColor.z += pixel_color.b;
+      }
        
       ////Regular Sampling Cambiar a funciones
       //for (int p = 0; p < n; p++) {
@@ -192,14 +192,15 @@ void World::updateRender() {
       pixel_color.r = pColor.x;
       pixel_color.g = pColor.y;
       pixel_color.b = pColor.z;
-      auto xdir = m_vp.m_pixelSize * (x - 0.5 * (m_vp.m_width - 1.0));
-      auto ydir = m_vp.m_pixelSize * (y - 0.5 * (m_vp.m_height - 1.0));
-      //With perspective
-      ray.m_direction = { (float)xdir,
-                          (float)ydir,
-                          (float)-dis };
-      ray.m_direction.normalize();
-      pixel_color = m_pTracer->traceRay(ray);
+
+      ////With perspective
+      //auto xdir = m_vp.m_pixelSize * (x - 0.5 * (m_vp.m_width - 1.0));
+      //auto ydir = m_vp.m_pixelSize * (y - 0.5 * (m_vp.m_height - 1.0));
+      //ray.m_direction = { (float)xdir,
+      //                    (float)ydir,
+      //                    (float)-dis };
+      //ray.m_direction.normalize();
+      //pixel_color = m_pTracer->traceRay(ray);
       displayPixel(x,y, pixel_color);
     }
   }
