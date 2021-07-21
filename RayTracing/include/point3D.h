@@ -223,7 +223,6 @@ class Point3D
   friend Point3D
   operator*(const int a, const Point3D vec);
 
-
 /*****************************************************************************/
 /**
  * Functions
@@ -308,3 +307,12 @@ __forceinline double
 pointVecDot(const Point3D& point, const JDVector3& vec) {
   return ((point.x * vec.x) + (point.y * vec.y) + (point.z * vec.z));
 };
+
+__forceinline JDVector3
+pointToVector3D(const Point3D& point) {
+  JDVector3 vec;
+  vec.x = point.x;
+  vec.y = point.y;
+  vec.z = point.z;
+  return vec;
+}

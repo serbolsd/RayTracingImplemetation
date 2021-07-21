@@ -21,13 +21,14 @@
 #include "Tracer.h"
 #include "ray.h"
 #include "geometriObject.h"
+#include "jlCamera.h"
 
 class World {
 public:
   /**
    * @brief defaul constructor
    */
-  World();
+  World();    
 
   /**
    * @brief defaul destructor
@@ -71,6 +72,59 @@ public:
                 const sf::Color& pixel_color);
 
   /**
+   * @brief function to render without samplers
+   * @param x is the position of pixel in x
+   * @param y is the position of pixel in y
+   * @param zw is hard wired in
+   * @param ray is the ray to shot
+   */
+  sf::Color
+  noSamplerRender(int x, int y, const float& zw, Ray& ray);
+
+  /**
+   * @brief function to render with regular sampler
+   * @param x is the position of pixel in x
+   * @param y is the position of pixel in y
+   * @param zw is hard wired in
+   * @param ray is the ray to shot
+   * @param numSamplers is number to sampling
+   */
+  sf::Color
+  regularSamplerRender(int x, int y, const float& zw, Ray& ray, int numSamplers);
+
+  /**
+   * @brief function to render with sampler class
+   * @param x is the position of pixel in x
+   * @param y is the position of pixel in y
+   * @param zw is hard wired in
+   * @param ray is the ray to shot
+   * @param numSamplers is number to sampling
+   */
+  sf::Color
+  classSamplerRender(int x, int y, const float& zw, Ray& ray);
+
+ /**
+   * @brief function to render with random sampling
+   * @param x is the position of pixel in x
+   * @param y is the position of pixel in y
+   * @param zw is hard wired in
+   * @param ray is the ray to shot
+   */
+  sf::Color
+  RandomSamplingRender(int x, int y, const float& zw, Ray& ray);
+
+  /**
+   * @brief function to render with jittered sampler
+   * @param x is the position of pixel in x
+   * @param y is the position of pixel in y
+   * @param zw is hard wired in
+   * @param ray is the ray to shot
+   * @param numSamplers is number to sampling
+   */
+  sf::Color
+  JitteredSamplerRender(int x, int y, const float& zw, Ray& ray, int numSamplers);
+
+  /**
    * @brief function to add objets in the vector with objects in scene
    */
   void
@@ -82,7 +136,7 @@ public:
    * @brief function to check hits with many objects
    */
   ShadeRec
-  hirBareBonesObjects(const Ray& ray);
+  hitBareBonesObjects(const Ray& ray);
 
   std::vector<GeometricObject*> m_objects;
 
@@ -127,4 +181,6 @@ public:
    * @brief sprtie which is setted the texture
    */
   sf::Sprite m_sprite;
+
+  Camera* m_camera;
 };

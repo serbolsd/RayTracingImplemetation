@@ -43,7 +43,7 @@ class Plane : public GeometricObject {
   /**
    * @brief point through which
    */
-   Point3D m_point;
+   JDVector3 m_point;
 
   /**
    * @brief normal to the plane

@@ -28,7 +28,7 @@ public:
    */
   sf::Color
   traceRay(const Ray& ray) override {
-    ShadeRec sr(m_pWorld->hirBareBonesObjects(ray));
+    ShadeRec sr(m_pWorld->hitBareBonesObjects(ray));
     if (sr.m_hitAnObject)
     {
       return sr.m_color;

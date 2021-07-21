@@ -27,7 +27,7 @@ public:
 			* @param origin is the postion of the origin of the ray
 			* @param direction is the direction of the ray
    */
-		Ray(const Point3D origin, const JDVector3 direction) : 
+		Ray(const JDVector3 origin, const JDVector3 direction) :
 				m_origin(origin), m_direction(direction) {};
 		
 		/**
@@ -57,7 +57,7 @@ public:
 		/**
 			* @brief ray's origin
 			*/
-		Point3D m_origin;
+		JDVector3 m_origin;
 
 		/**
 			* @brief ray's direction

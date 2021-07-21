@@ -1,7 +1,7 @@
 #include "Plane.h"
 
 Plane::Plane(const Point3D point, const JDVector3& normal) {
-  m_point = point;
+  m_point = pointToVector3D(point);
   m_normal = normal;
 }
 
@@ -9,7 +9,8 @@ const double Plane::kEpsilon = 0.00001;
 
 bool 
 Plane::hit(const Ray& ray, double& tmin, ShadeRec& s) {
-  double t = pointVecDot((m_point - ray.m_origin), m_normal) / (ray.m_direction.dot(m_normal));
+  auto vec = m_point - ray.m_origin;
+  double t = vec.dot(m_normal) / (ray.m_direction.dot(m_normal));
   if (t > kEpsilon) {
     tmin = t;
     s.m_normal = m_normal;

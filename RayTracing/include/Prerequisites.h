@@ -16,8 +16,7 @@ using namespace jdEngineSDK;
 
 FORCEINLINE float 
 randomFloat() {
-  float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-  return r;
+  return  ((float)rand() / (float)RAND_MAX);
 }
 
 FORCEINLINE int 

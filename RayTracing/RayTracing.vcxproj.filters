@@ -25,6 +25,9 @@
     <Filter Include="Archivos de origen\Cameras">
       <UniqueIdentifier>{473cdb96-6284-4d08-8fd5-b64333420203}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Maths">
+      <UniqueIdentifier>{de3d802e-666a-41a2-854b-8e5b1dff145b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Source.cpp">
@@ -50,6 +53,9 @@
     </ClCompile>
     <ClCompile Include="src\jlCPinhole.cpp">
       <Filter>Archivos de origen\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jlQuaternion.cpp">
+      <Filter>Maths</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="include\jlCPinhole.h">
       <Filter>Archivos de encabezado\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlQuaternion.h">
+      <Filter>Maths</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
