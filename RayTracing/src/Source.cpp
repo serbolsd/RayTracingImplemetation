@@ -11,7 +11,7 @@ int main()
 
 
   World w;
-  w.build(400, 400);
+  w.build(600, 400);
   w.renderScene();
   return 0;
 }

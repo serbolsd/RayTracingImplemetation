@@ -63,6 +63,6 @@ class Camera {
   /**
    * @brief the expesure time
    */
-  float m_expesureTime;
+  float m_exposureTime;
 
 };

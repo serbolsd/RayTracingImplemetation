@@ -39,15 +39,14 @@ CPinhole::renderScene(World* world) {
       //}
        
       //No Sampler
-      auto xx = vp.m_pixelSize * (x - 0.5 * (vp.m_width - 1.0));
-      auto yy = vp.m_pixelSize * (y - 0.5 * (vp.m_height - 1.0));
-      pp = { (int)xx,(int)yy };
-      ray.m_direction = rayDirection(pp);
-      //ray.m_direction = {0,0,-1};
-      //ray.m_origin.x = pp.x;
-      //ray.m_origin.y = pp.y;
-      //ray.m_origin.z = 100;
-      pixel_color = world->m_pTracer->traceRay(ray);
+      //auto xx = vp.m_pixelSize * (x - 0.5 * (vp.m_width - 1.0));
+      //auto yy = vp.m_pixelSize * (y - 0.5 * (vp.m_height - 1.0));
+      //pp = { (int)xx,(int)yy };
+      //ray.m_direction = rayDirection(pp);
+      //pixel_color = world->m_pTracer->traceRay(ray);
+      
+      //Class Sampler
+      pixel_color = classSamplerRender(x, y, world, ray);
       //pColor.x += pixel_color.r;
       //pColor.y += pixel_color.g;
       //pColor.z += pixel_color.b;
@@ -60,5 +59,31 @@ CPinhole::renderScene(World* world) {
       //world->displayPixel(x, y, sf::Color::Yellow);
       world->displayPixel(x, y, pixel_color);
     }
+  }
+}
+
+sf::Color 
+CPinhole::classSamplerRender(int x, int y, World* world, Ray& ray) {
+  {
+    static sf::Color pixel_color;
+    static JDPoint pp; //sampler point in pixel
+    static JDVector3 pColor = { 0,0,0 };
+    pColor = { 0,0,0 };
+    for (int i = 0; i < world->m_vp.m_numSamplers; i++) {
+      auto su = world->m_vp.m_pSampler->sampleUnitSquare();
+      pp.x = world->m_vp.m_pixelSize * (x - 0.5 * world->m_vp.m_width + su.x);
+      pp.y = world->m_vp.m_pixelSize * (y - 0.5 * world->m_vp.m_height + su.y);
+
+      ray.m_direction = rayDirection(pp);
+      pixel_color = world->m_pTracer->traceRay(ray);
+      pColor.x += pixel_color.r;
+      pColor.y += pixel_color.g;
+      pColor.z += pixel_color.b;
+    }
+    pColor /= world->m_vp.m_numSamplers;
+    pixel_color.r = pColor.x;
+    pixel_color.g = pColor.y;
+    pixel_color.b = pColor.z;
+    return pixel_color;
   }
 }

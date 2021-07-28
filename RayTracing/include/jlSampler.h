@@ -61,7 +61,7 @@ class Sampler
   sampleUnitSquare(){
     if (m_count % m_numSamples == 0) // start of a new pixel
       m_jump = (randomInt() % m_numSets) * m_numSamples;
-    return (diskSamples[m_jump + m_count++ % m_numSamples]);
+    return (m_samples[m_jump + m_count++ % m_numSamples]);
     //return (m_samples[m_jump + m_shuffledIndices[m_jump+ m_count++ % m_numSamples]]);
     //simple
     //int index = m_count++ % (m_numSamples * m_numSets);
@@ -69,6 +69,16 @@ class Sampler
     //  index = m_samples.size() - 1;
     //return (m_samples[index]);
   };
+
+  /**
+   * @brief get next sample on unit disk
+   */
+  JDVector2
+  sampleUnitDisk() {
+    if (m_count % m_numSamples == 0) // start of a new pixel
+      m_jump = (randomInt() % m_numSets) * m_numSamples;
+    return (diskSamples[m_jump + m_count++ % m_numSamples]);
+  }
 
   void
   mapSamplerToUnitDisk();

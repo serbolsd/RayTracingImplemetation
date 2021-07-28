@@ -1,11 +1,18 @@
 #include "World.h"
+//tracers
 #include "tSingleSphere.h"
 #include "tMultipleObject.h"
+//Geometry
 #include "Plane.h"
+#include "jlBox.h"
+#include "jlCylinder.h"
+//Samplers
 #include "jlSJittered.h"
 #include "jRegularSampler.h"
+//Cameras
 #include "jlCPinhole.h"
-
+#include "jlCThinLens.h"
+//Util
 #include <jdPoint.h>
 
 World::World() {
@@ -34,7 +41,8 @@ void World::build(const int width, const int height) {
   m_vp.m_invGamma = 1.0f / m_vp.m_gamma;
   m_vp.m_numSamplers = 200;
   //m_vp.setSampler(new SRegular(8));
-  m_vp.setSampler(new SJittered(1));
+  auto sampler = new SJittered(100);
+  m_vp.setSampler(sampler);
   m_vp.m_pSampler->m_numSets = width * height;
   m_vp.m_pSampler->generateSamples();
   m_vp.m_pSampler->setupShuffledIndices();
@@ -48,17 +56,41 @@ void World::build(const int width, const int height) {
   m_sphere.m_radius = 85.0f;
   m_sphere.color = sf::Color::Cyan;
   
-  Sphere* sp = new Sphere();
-  sp->m_position = { 80,30,0 };
-  sp->m_radius = 80.0f;
-  sp->color = sf::Color::Cyan;
-  addObject(sp);
+  //Sphere* sp = new Sphere();
+  //sp->m_position = { 80,30,0 };
+  //sp->m_radius = 80.0f;
+  //sp->color = sf::Color::Cyan;
+  //addObject(sp);
   
-  sp = new Sphere();
-  sp->m_position = { -80,30,0 };
-  sp->m_radius = 80.0f;
-  sp->color = sf::Color(255, 255, 0, 255);
-  addObject(sp);
+  //sp = new Sphere();
+  //sp->m_position = { -80,30,0 };
+  //sp->m_radius = 80.0f;
+  //sp->color = sf::Color(255, 255, 0, 255);
+  //addObject(sp);
+  
+  Point3D min(-60, 0, -60);
+  Point3D max(60, 120, 60);
+  Point3D pos(-200, 0, -50);
+  Box* bs = new Box(min, max, pos);
+  bs->color = { 255, 0, 0, 255 };
+  addObject(bs);
+  min={-60, 0, -60};
+  max={60, 250, 60};
+  pos.x = 0;
+  pos.z = 0;
+  bs = new Box(min, max, pos);
+  bs->color = { 0, 0, 255, 255 };
+  addObject(bs);
+
+  pos.x = 200;
+  pos.z = 200;
+  //bs = new Box(min, max, pos);
+  //bs->color = { 100, 0, 255, 255 };
+  //addObject(bs);
+
+  Cylinder* cs = new Cylinder(60.f, 200, pos);
+  cs->color = { 100, 0, 255, 255 };
+  addObject(cs);
   
   Plane* plane = new Plane(Point3D(0, -10, 0), JDVector3(0, 1, 0).getnormalize());
   plane->color = sf::Color(0, 100, 0);
@@ -68,9 +100,18 @@ void World::build(const int width, const int height) {
   pPCam->m_viewDistance = 400;
   pPCam->m_zoom = 1;
   m_camera = pPCam;
-  m_camera->m_eye = {0, 50, 200 };
+
+  //auto pTLCam = new CThinLens;
+  //pTLCam->setSampler(sampler);
+  //pTLCam->m_viewDistance = 400;
+  //pTLCam->m_focalDistance = 40;
+  //pTLCam->m_lendsRadius = 0;
+  //m_camera = pTLCam;
+
+  m_camera->m_eye = {0, 50, 400 };
   m_camera->m_lookAt = {0,0,0};
   m_camera->m_up = {0,1,0};
+  m_camera->m_exposureTime = 1;
   m_camera->computeUVW();
   
   openWindow(width, height);
@@ -158,7 +199,7 @@ void World::updateRender() {
       //  pColor.y += pixel_color.g;
       //  pColor.z += pixel_color.b;
       //}
-      //pixel_color = classSamplerRender(x, y, zw, ray);
+      pixel_color = classSamplerRender(x, y, zw, ray);
        
       //Regular Sampling Cambiar a funciones
       //pixel_color = regularSamplerRender(x, y, zw, ray, n);
@@ -170,7 +211,7 @@ void World::updateRender() {
       //pixel_color = JitteredSamplerRender(x, y, zw, ray, n);
 
       //No Sampler
-      pixel_color = noSamplerRender(x, y, zw, ray);
+      //pixel_color = noSamplerRender(x, y, zw, ray);
 
       ////With perspective
       //auto xdir = m_vp.m_pixelSize * (x - 0.5 * (m_vp.m_width - 1.0));

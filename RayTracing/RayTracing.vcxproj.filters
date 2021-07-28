@@ -28,18 +28,18 @@
     <Filter Include="Maths">
       <UniqueIdentifier>{de3d802e-666a-41a2-854b-8e5b1dff145b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Shapes">
+      <UniqueIdentifier>{13c679fc-7899-497f-af4b-c3b46a780494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Shapes">
+      <UniqueIdentifier>{da05fffe-0312-4ea6-9a4e-0715710c3283}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Source.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="src\point3D.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Plane.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Sphere.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="src\World.cpp">
@@ -56,6 +56,21 @@
     </ClCompile>
     <ClCompile Include="src\jlQuaternion.cpp">
       <Filter>Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Plane.cpp">
+      <Filter>Archivos de origen\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sphere.cpp">
+      <Filter>Archivos de origen\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jlBox.cpp">
+      <Filter>Archivos de origen\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jlCylinder.cpp">
+      <Filter>Archivos de origen\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jlCThinLens.cpp">
+      <Filter>Archivos de origen\Cameras</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,13 +89,7 @@
     <ClInclude Include="include\shadeRec.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="include\Plane.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="include\World.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Sphere.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="include\ViewPlane.h">
@@ -112,6 +121,21 @@
     </ClInclude>
     <ClInclude Include="include\jlQuaternion.h">
       <Filter>Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Sphere.h">
+      <Filter>Archivos de encabezado\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Plane.h">
+      <Filter>Archivos de encabezado\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlBox.h">
+      <Filter>Archivos de encabezado\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlCylinder.h">
+      <Filter>Archivos de encabezado\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlCThinLens.h">
+      <Filter>Archivos de encabezado\Cameras</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

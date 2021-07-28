@@ -14,27 +14,37 @@
 #include "jdVector3.h"
 #include "jdPoint.h"
 #include "ray.h"
+#include "jlSampler.h"
+
 #include <SFML/Graphics/Color.hpp>
 
-class CPinhole : public Camera {
- public: 
+class CThinLens : public Camera {
+ public:
   /**
    * @brief default constructor
    */
-  CPinhole() = default;
+		CThinLens() = default;
+  
+  /**
+   * @brief default destructor
+   */
+  ~CThinLens() {};
 
   /**
-   * @brief default constructor
+   * @brief function to set sampler
+   * @param sp is the sampler to set
    */
-  ~CPinhole() {};
+  void
+  setSampler(Sampler* sp);
 
   /**
    * @brief function to get the ray direction with a point
-   * @param p is the point
+   * @param pp is the pixel point
+   * @param lp is the lens point
    * @return the ray's direction
    */
   JDVector3
-  rayDirection(const JDPoint& p);
+  rayDirection(const JDPoint& pp, const JDPoint& lp);
 
   /**
    * @brief function to render the scene
@@ -42,17 +52,28 @@ class CPinhole : public Camera {
   virtual void
   renderScene(World* world) override;
 
-  sf::Color
-  classSamplerRender(int x, int y, World* world, Ray& ray);
+  /**
+   * @brief lends ratio
+   */
+  float m_lendsRadius = 1;
 
   /**
-   * @brief the view-plane distance
+   * @brief view plane distance
    */
-  float m_viewDistance; 
+  float m_viewDistance = 1000;
 
   /**
-   * @brief the zoom factor
+   * @brief focal plane distance
    */
-  float m_zoom;
+  float m_focalDistance = 1;
+
+  /**
+   * @brief zoom factor
+   */
+  float m_zoom = 1;
+
+  /**
+   * @brief sampler object
+   */
+  Sampler* m_pSampler = nullptr;
 };
-
