@@ -75,7 +75,7 @@ CPinhole::classSamplerRender(int x, int y, World* world, Ray& ray) {
       pp.y = world->m_vp.m_pixelSize * (y - 0.5 * world->m_vp.m_height + su.y);
 
       ray.m_direction = rayDirection(pp);
-      pixel_color = world->m_pTracer->traceRay(ray);
+      pixel_color = world->m_pTracer->traceRay(ray, 10);
       pColor.x += pixel_color.r;
       pColor.y += pixel_color.g;
       pColor.z += pixel_color.b;

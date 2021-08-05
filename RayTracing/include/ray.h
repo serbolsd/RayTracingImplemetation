@@ -52,6 +52,7 @@ public:
 		operator=(const Ray& ray) {
 				m_origin = ray.m_origin;
 				m_direction = ray.m_direction;
+				return *this;
 		};
 
 		/**

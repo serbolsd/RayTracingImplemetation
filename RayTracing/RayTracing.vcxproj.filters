@@ -34,6 +34,27 @@
     <Filter Include="Archivos de origen\Shapes">
       <UniqueIdentifier>{da05fffe-0312-4ea6-9a4e-0715710c3283}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Lights">
+      <UniqueIdentifier>{f5a78750-a66b-461f-9bc9-430a15568414}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Lights">
+      <UniqueIdentifier>{55d9023b-fe7d-4145-a7a4-a37ca3413f4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Tracers">
+      <UniqueIdentifier>{a51c316d-db38-4f9b-81db-20b257e5e230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\BRDF">
+      <UniqueIdentifier>{cfc1e97f-c3d6-4efc-97bd-e95a6e2c9daf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\BRDF">
+      <UniqueIdentifier>{accf3120-3be3-4db3-8d27-04ccc6f76843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Materials">
+      <UniqueIdentifier>{5b7c2fd2-7bdf-4f0e-bded-8c0feaf9fc11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Materials">
+      <UniqueIdentifier>{e246923a-4ad4-4ba9-b5e0-4e88ce5833a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Source.cpp">
@@ -72,6 +93,18 @@
     <ClCompile Include="src\jlCThinLens.cpp">
       <Filter>Archivos de origen\Cameras</Filter>
     </ClCompile>
+    <ClCompile Include="src\jlPointLight.cpp">
+      <Filter>Archivos de origen\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jlMaterial.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jlBRDFLambertian.cpp">
+      <Filter>Archivos de origen\BRDF</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jlMMatte.cpp">
+      <Filter>Archivos de origen\Materials</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ray.h">
@@ -96,12 +129,6 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="include\Tracer.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="include\tSingleSphere.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="include\tMultipleObject.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="include\jlSampler.h">
@@ -136,6 +163,36 @@
     </ClInclude>
     <ClInclude Include="include\jlCThinLens.h">
       <Filter>Archivos de encabezado\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlLight.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlAmbientLight.h">
+      <Filter>Archivos de encabezado\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlPointLight.h">
+      <Filter>Archivos de encabezado\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlMaterial.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tSingleSphere.h">
+      <Filter>Archivos de encabezado\Tracers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlTRayCast.h">
+      <Filter>Archivos de encabezado\Tracers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tMultipleObject.h">
+      <Filter>Archivos de encabezado\Samplers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlBRDF.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlBRDFLambertian.h">
+      <Filter>Archivos de encabezado\BRDF</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlMMatte.h">
+      <Filter>Archivos de encabezado\Materials</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

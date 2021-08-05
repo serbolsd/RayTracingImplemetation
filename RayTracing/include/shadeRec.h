@@ -13,8 +13,9 @@
 #include "Prerequisites.h"
 #include <jdVector3.h>
 #include <SFML/Graphics/Color.hpp>
-
+#include "ray.h"
 class World;
+class Material;
 
 class ShadeRec {
  public:
@@ -65,7 +66,32 @@ class ShadeRec {
   /**
    * @brief world reference for shading
    */
-  World* m_world;
+  World* m_world = nullptr;
+
+  /**
+   * @brief neareat object's material
+   */
+  Material* m_pMaterial = nullptr;
+
+  /**
+   * @brief world coordinates of hit point 
+   */
+  Point3D m_HitPoint;
+   
+  /**
+   * @brief for specular highlights
+   */
+  Ray m_ray;
+
+  /**
+   * @brief recursion depth
+   */
+  int m_depth;
+
+  /**
+   * @brief for area lights
+   */
+  JDVector3 m_dir;
 };
 
 inline ShadeRec::ShadeRec(World* wr) 
@@ -87,4 +113,9 @@ ShadeRec::operator=(const ShadeRec& rhs) {
   m_normal = rhs.m_normal;
   m_color = rhs.m_color;
   m_world = rhs.m_world;
+  m_pMaterial = rhs.m_pMaterial;
+  m_HitPoint = rhs.m_HitPoint;
+  m_ray = rhs.m_ray;
+  m_depth = rhs.m_depth;
+  m_dir = rhs.m_dir;
 }

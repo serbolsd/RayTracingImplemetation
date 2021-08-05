@@ -40,6 +40,17 @@ class Tracer
     return sf::Color::Black;
   };
 
+  virtual sf::Color
+  traceRay(const Ray& ray, int depth) {
+    return sf::Color::Black;
+  };
+
+  virtual sf::Color
+  traceRay(const Ray& ray,const float& tmin, int depth) {
+    return sf::Color::Black;
+  };
+
+
   /**
    * @brief pointer to the world to do trace
    */

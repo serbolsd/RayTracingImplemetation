@@ -2,6 +2,7 @@
 //tracers
 #include "tSingleSphere.h"
 #include "tMultipleObject.h"
+#include "jlTRayCast.h"
 //Geometry
 #include "Plane.h"
 #include "jlBox.h"
@@ -12,6 +13,11 @@
 //Cameras
 #include "jlCPinhole.h"
 #include "jlCThinLens.h"
+//Lights
+#include "jlAmbientLight.h"
+#include "jlPointLight.h"
+#include "jlMaterial.h"
+#include "jlMMatte.h"
 //Util
 #include <jdPoint.h>
 
@@ -36,12 +42,13 @@ World::~World() {
 void World::build(const int width, const int height) {
   m_vp.m_height = height;
   m_vp.m_width = width;
-  m_vp.m_pixelSize = 2.0f;
+  m_vp.m_pixelSize = 1;
   m_vp.m_gamma = 1.0f;
   m_vp.m_invGamma = 1.0f / m_vp.m_gamma;
   m_vp.m_numSamplers = 200;
   //m_vp.setSampler(new SRegular(8));
-  auto sampler = new SJittered(100);
+  auto sampler = new SJittered(16);
+  //auto sampler = new SRegular(0);
   m_vp.setSampler(sampler);
   m_vp.m_pSampler->m_numSets = width * height;
   m_vp.m_pSampler->generateSamples();
@@ -49,12 +56,13 @@ void World::build(const int width, const int height) {
   m_vp.m_pSampler->mapSamplerToUnitDisk();
 
   //m_pTracer = new TSingleSphere();
-  m_pTracer = new TMultipleObjects();
+  //m_pTracer = new TMultipleObjects();
+  m_pTracer = new RayCast();
   m_pTracer->m_pWorld = this;
 
-  m_sphere.m_position = { 50,0,0 };
-  m_sphere.m_radius = 85.0f;
-  m_sphere.color = sf::Color::Cyan;
+  //m_sphere.m_position = { 50,0,0 };
+  //m_sphere.m_radius = 85.0f;
+  //m_sphere.color = sf::Color::Cyan;
   
   //Sphere* sp = new Sphere();
   //sp->m_position = { 80,30,0 };
@@ -68,36 +76,36 @@ void World::build(const int width, const int height) {
   //sp->color = sf::Color(255, 255, 0, 255);
   //addObject(sp);
   
-  Point3D min(-60, 0, -60);
-  Point3D max(60, 120, 60);
-  Point3D pos(-200, 0, -50);
-  Box* bs = new Box(min, max, pos);
-  bs->color = { 255, 0, 0, 255 };
-  addObject(bs);
-  min={-60, 0, -60};
-  max={60, 250, 60};
-  pos.x = 0;
-  pos.z = 0;
-  bs = new Box(min, max, pos);
-  bs->color = { 0, 0, 255, 255 };
-  addObject(bs);
-
-  pos.x = 200;
-  pos.z = 200;
-  //bs = new Box(min, max, pos);
-  //bs->color = { 100, 0, 255, 255 };
+  //Point3D min(-60, 0, -60);
+  //Point3D max(60, 120, 60);
+  //Point3D pos(-200, 0, -50);
+  //Box* bs = new Box(min, max, pos);
+  //bs->color = { 255, 0, 0, 255 };
   //addObject(bs);
-
-  Cylinder* cs = new Cylinder(60.f, 200, pos);
-  cs->color = { 100, 0, 255, 255 };
-  addObject(cs);
-  
-  Plane* plane = new Plane(Point3D(0, -10, 0), JDVector3(0, 1, 0).getnormalize());
-  plane->color = sf::Color(0, 100, 0);
-  addObject(plane);
+  //min={-60, 0, -60};
+  //max={60, 250, 60};
+  //pos.x = 0;
+  //pos.z = 0;
+  //bs = new Box(min, max, pos);
+  //bs->color = { 0, 0, 255, 255 };
+  //addObject(bs);
+  //
+  //pos.x = 200;
+  //pos.z = 200;
+  ////bs = new Box(min, max, pos);
+  ////bs->color = { 100, 0, 255, 255 };
+  ////addObject(bs);
+  //
+  //Cylinder* cs = new Cylinder(60.f, 200, pos);
+  //cs->color = { 100, 0, 255, 255 };
+  //addObject(cs);
+  //
+  //Plane* plane = new Plane(Point3D(0, -10, 0), JDVector3(0, 1, 0).getnormalize());
+  //plane->color = sf::Color(0, 100, 0);
+  //addObject(plane);
 
   auto pPCam = new CPinhole;
-  pPCam->m_viewDistance = 400;
+  pPCam->m_viewDistance = 850;
   pPCam->m_zoom = 1;
   m_camera = pPCam;
 
@@ -108,12 +116,35 @@ void World::build(const int width, const int height) {
   //pTLCam->m_lendsRadius = 0;
   //m_camera = pTLCam;
 
-  m_camera->m_eye = {0, 50, 400 };
+  m_camera->m_eye = {0, 0, 500 };
   m_camera->m_lookAt = {0,0,0};
   m_camera->m_up = {0,1,0};
   m_camera->m_exposureTime = 1;
   m_camera->computeUVW();
+
+  AmbientL* ambient = new AmbientL();
+  ambient->m_ls = 1;
+  m_pAmbientlight = ambient;
+  m_lights.push_back(ambient);
+
+  PointLight* pl = new PointLight;
+  pl->m_ls = 3;
+  pl->m_location = { 100, 50, 150 };
+  pl->m_color = sf::Color::White;
+  m_lights.push_back(pl);
+
+  Matte* matte = new Matte;
+  matte->setKa(0.20);
+  matte->setKd(0.8);
+  matte->setCd(sf::Color(255,255,0));
   
+  Sphere* sp = new Sphere();
+  sp->m_position = { 10,-5,0 };
+  sp->m_radius = 80;
+  sp->color = sf::Color::Cyan;
+  sp->m_pMaterial = matte;
+  addObject(sp);
+
   openWindow(width, height);
 }
 
@@ -228,7 +259,12 @@ void World::updateRender() {
 
 void World::displayPixel(const int row, const int column, const sf::Color& pixel_color) 
 {
-  m_image.setPixel(row, column, pixel_color);
+  auto color = pixel_color;
+
+  //color = clampToColor(color);
+  color = maxToGama(color);
+
+  m_image.setPixel(row, column, color);
   m_texture.update(m_image);
   m_sprite.setTexture(m_texture);
 }
@@ -363,4 +399,58 @@ World::hitBareBonesObjects(const Ray& ray) {
     }
   }
   return sr;
+}
+
+ShadeRec 
+World::hitObjects(const Ray& ray) {
+  ShadeRec sr(this);
+  double t = 0.0;
+  JDVector3 Normal;
+  Point3D localHitPoint;
+
+  double tmin = HUGE_VAL;
+  int numObjects = m_objects.size();
+
+  for (int i = 0; i < numObjects; ++i) {
+    if (m_objects[i]->hit(ray, t, sr) && (t < tmin)) {
+      sr.m_hitAnObject = true;
+      tmin = t;
+      sr.m_pMaterial = m_objects[i]->m_pMaterial;
+      auto hitPoint = ray.m_origin + (t * ray.m_direction);
+      sr.m_HitPoint = { (int)hitPoint.x, (int)hitPoint.y, (int)hitPoint.z };
+      Normal = sr.m_normal;
+      localHitPoint = sr.m_localHitPoint;
+    }
+  }
+  if (sr.m_hitAnObject) {
+    sr.m_depth = tmin;
+    sr.m_normal = Normal;
+    sr.m_localHitPoint = localHitPoint;
+  }
+  return sr;
+}
+
+sf::Color World::maxToGama(const sf::Color& color)
+{
+  float maxValue = std::max(color.r, std::max(color.g, color.b));
+  auto c = color;
+  if (maxValue > 255)
+  {
+    c.r /= maxValue;
+    c.g /= maxValue;
+    c.b /= maxValue;
+  }
+  return c;
+}
+
+sf::Color 
+World::clampToColor(const sf::Color& color) {
+  auto c = color;
+  if (color.r > 255 || color.g > 255 || color.b > 255)
+  {
+    c.r = 255;
+    c.g = 0;
+    c.b = 0;
+  }
+  return c;
 }

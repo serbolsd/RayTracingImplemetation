@@ -22,6 +22,7 @@
 #include "ray.h"
 #include "geometriObject.h"
 #include "jlCamera.h"
+#include "jlLight.h"
 
 class World {
 public:
@@ -138,6 +139,18 @@ public:
   ShadeRec
   hitBareBonesObjects(const Ray& ray);
 
+  /**
+   * @brief function to check hits with many objects with Materials
+   */
+  ShadeRec
+  hitObjects(const Ray& ray);
+
+  sf::Color
+  maxToGama(const sf::Color& color);
+
+  sf::Color
+  clampToColor(const sf::Color& color);
+
   std::vector<GeometricObject*> m_objects;
 
 
@@ -183,4 +196,7 @@ public:
   sf::Sprite m_sprite;
 
   Camera* m_camera;
+  Light* m_pAmbientlight;
+  Vector<Light*> m_lights;
+
 };

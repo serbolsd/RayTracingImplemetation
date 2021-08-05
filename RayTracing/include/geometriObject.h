@@ -30,4 +30,6 @@ class GeometricObject {
 			* @brief color use for debug
 			*/
   sf::Color color; // only used in first step
+
+		Material* m_pMaterial;
 };

@@ -152,10 +152,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\jlBox.cpp" />
+    <ClCompile Include="src\jlBRDFLambertian.cpp" />
     <ClCompile Include="src\jlCamera.cpp" />
     <ClCompile Include="src\jlCPinhole.cpp" />
     <ClCompile Include="src\jlCThinLens.cpp" />
     <ClCompile Include="src\jlCylinder.cpp" />
+    <ClCompile Include="src\jlMaterial.cpp" />
+    <ClCompile Include="src\jlMMatte.cpp" />
+    <ClCompile Include="src\jlPointLight.cpp" />
     <ClCompile Include="src\jlQuaternion.cpp" />
     <ClCompile Include="src\jlSampler.cpp" />
     <ClCompile Include="src\Plane.cpp" />
@@ -166,14 +170,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\geometriObject.h" />
+    <ClInclude Include="include\jlAmbientLight.h" />
     <ClInclude Include="include\jlBox.h" />
+    <ClInclude Include="include\jlBRDF.h" />
+    <ClInclude Include="include\jlBRDFLambertian.h" />
     <ClInclude Include="include\jlCamera.h" />
     <ClInclude Include="include\jlCPinhole.h" />
     <ClInclude Include="include\jlCThinLens.h" />
     <ClInclude Include="include\jlCylinder.h" />
+    <ClInclude Include="include\jlLight.h" />
+    <ClInclude Include="include\jlMaterial.h" />
+    <ClInclude Include="include\jlMMatte.h" />
+    <ClInclude Include="include\jlPointLight.h" />
     <ClInclude Include="include\jlQuaternion.h" />
     <ClInclude Include="include\jlSampler.h" />
     <ClInclude Include="include\jlSJittered.h" />
+    <ClInclude Include="include\jlTRayCast.h" />
     <ClInclude Include="include\jRegularSampler.h" />
     <ClInclude Include="include\Plane.h" />
     <ClInclude Include="include\point3D.h" />
