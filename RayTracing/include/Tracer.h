@@ -35,19 +35,19 @@ class Tracer
    * @param ray is the ray with check the hits
    * @return a color
    */
-  virtual sf::Color
+  virtual JDVector3
   traceRay(const Ray& ray) {
-    return sf::Color::Black;
+    return { 0, 0, 0 };
   };
 
-  virtual sf::Color
+  virtual JDVector3
   traceRay(const Ray& ray, int depth) {
-    return sf::Color::Black;
+    return { 0, 0, 0 };
   };
 
-  virtual sf::Color
+  virtual JDVector3
   traceRay(const Ray& ray,const float& tmin, int depth) {
-    return sf::Color::Black;
+    return { 0, 0, 0 };
   };
 
 

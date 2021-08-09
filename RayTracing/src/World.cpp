@@ -62,18 +62,18 @@ void World::build(const int width, const int height) {
 
   //m_sphere.m_position = { 50,0,0 };
   //m_sphere.m_radius = 85.0f;
-  //m_sphere.color = sf::Color::Cyan;
+  //m_sphere.color = JDVector3::Cyan;
   
   //Sphere* sp = new Sphere();
   //sp->m_position = { 80,30,0 };
   //sp->m_radius = 80.0f;
-  //sp->color = sf::Color::Cyan;
+  //sp->color = JDVector3::Cyan;
   //addObject(sp);
   
   //sp = new Sphere();
   //sp->m_position = { -80,30,0 };
   //sp->m_radius = 80.0f;
-  //sp->color = sf::Color(255, 255, 0, 255);
+  //sp->color = JDVector3(255, 255, 0, 255);
   //addObject(sp);
   
   //Point3D min(-60, 0, -60);
@@ -101,7 +101,7 @@ void World::build(const int width, const int height) {
   //addObject(cs);
   //
   //Plane* plane = new Plane(Point3D(0, -10, 0), JDVector3(0, 1, 0).getnormalize());
-  //plane->color = sf::Color(0, 100, 0);
+  //plane->color = JDVector3(0, 100, 0);
   //addObject(plane);
 
   auto pPCam = new CPinhole;
@@ -130,18 +130,19 @@ void World::build(const int width, const int height) {
   PointLight* pl = new PointLight;
   pl->m_ls = 3;
   pl->m_location = { 100, 50, 150 };
-  pl->m_color = sf::Color::White;
+  pl->m_color = { 1, 1, 1 };
   m_lights.push_back(pl);
 
   Matte* matte = new Matte;
-  matte->setKa(0.20);
-  matte->setKd(0.8);
-  matte->setCd(sf::Color(255,255,0));
+  matte->setKa(0.25);
+  matte->setKd(0.65);
+  matte->setCd(JDVector3(1,1,0));
   
   Sphere* sp = new Sphere();
   sp->m_position = { 10,-5,0 };
   sp->m_radius = 80;
-  sp->color = sf::Color::Cyan;
+  sp->color = { 100,100,255 };
+  sp->color.normalize();
   sp->m_pMaterial = matte;
   addObject(sp);
 
@@ -161,28 +162,44 @@ void World::renderScene() {
       if (event.type == sf::Event::Closed)
         m_window->close();
     }
-    m_window->clear(m_backgroundColor);
+    sf::Color backGround(m_backgroundColor.x, m_backgroundColor.y, m_backgroundColor.z);
+    m_window->clear(backGround);
     m_window->draw(m_sprite);
     m_window->display();
   }
 
   for (int i = 0; i < m_objects.size(); i++)
   {
-    delete m_objects[i];
+    if (m_objects[i] != nullptr)
+    {
+      delete m_objects[i];
+      m_objects[i] = nullptr;
+    }
   }
   m_objects.clear();
+  for (int i = 0; i < m_lights.size(); i++)
+  {
+    if (m_lights[i] != nullptr)
+    {
+      delete m_lights[i];
+      m_lights[i] = nullptr;
+    }
+  }
+  m_lights.clear();
 }
 
 void World::openWindow(const int width, const int height)
 {
 		m_window = new sf::RenderWindow(sf::VideoMode(width, height), "My window");
   // Create a image filled with black color
-  m_image.create(width, height, m_backgroundColor);
+
+  sf::Color backGround(m_backgroundColor.x, m_backgroundColor.y, m_backgroundColor.z);
+  m_image.create(width, height, backGround);
   //for (size_t x = 200; x < 601; x++)
   //{
   //  for (size_t y = 150; y < 451; y++)
   //  {
-  //    m_image.setPixel(x, y, sf::Color::Cyan);
+  //    m_image.setPixel(x, y, JDVector3::Cyan);
   //  }
   //}
   
@@ -198,7 +215,7 @@ void World::openWindow(const int width, const int height)
 void World::updateRender() {
   m_camera->renderScene(this);
   return;
-  sf::Color pixel_color;
+  JDVector3 pixel_color;
   JDVector3 pColor = { 0,0,0 };
   Ray ray;
   double zw = 100.0; // hard wired in
@@ -216,7 +233,7 @@ void World::updateRender() {
 
   for (int x = 0; x < m_vp.m_width; x++) {
     for (int y = 0; y < m_vp.m_height; y++) {
-      pixel_color = sf::Color::Black;
+      pixel_color = { 0, 0, 0};
       pColor = { 0,0,0 };
       //With Sampler class
       //for (int i = 0; i < m_vp.m_numSamplers; i++)
@@ -257,33 +274,34 @@ void World::updateRender() {
   }
 }
 
-void World::displayPixel(const int row, const int column, const sf::Color& pixel_color) 
+void World::displayPixel(const int row, const int column, const JDVector3& pixel_color) 
 {
   auto color = pixel_color;
 
-  //color = clampToColor(color);
-  color = maxToGama(color);
-
-  m_image.setPixel(row, column, color);
+  color = clampToColor(color);
+  //color = maxToGama(color);
+  color *= 255;
+  sf::Color sfColor(color.x, color.y, color.z);
+  m_image.setPixel(row, column, sfColor);
   m_texture.update(m_image);
   m_sprite.setTexture(m_texture);
 }
 
-sf::Color 
+JDVector3 
 World::noSamplerRender(int x, int y, const float& zw, Ray& ray) {
   static float xx, yy;
   xx = m_vp.m_pixelSize * (x - 0.5 * (m_vp.m_width - 1.0));
   yy = m_vp.m_pixelSize * (y - 0.5 * (m_vp.m_height - 1.0));
-  //m_image.setPixel(x, y, sf::Color::Cyan);
+  //m_image.setPixel(x, y, JDVector3::Cyan);
   ray.m_origin.x = xx;
   ray.m_origin.y = yy;
   ray.m_origin.z = zw;
   return m_pTracer->traceRay(ray);
 }
 
-sf::Color 
+JDVector3 
 World::regularSamplerRender(int x, int y, const float& zw, Ray& ray, int numSamplers) {
-  static sf::Color pixel_color;
+  static JDVector3 pixel_color;
   static JDPoint pp; //sampler point in pixel
   static JDVector3 pColor = { 0,0,0 };
   pColor = { 0,0,0 };
@@ -296,21 +314,17 @@ World::regularSamplerRender(int x, int y, const float& zw, Ray& ray, int numSamp
       ray.m_origin.z = zw;
 
       pixel_color = m_pTracer->traceRay(ray);
-      pColor.x += pixel_color.r;
-      pColor.y += pixel_color.g;
-      pColor.z += pixel_color.b;
+      pColor += pixel_color;
     }
   }
   pColor /= numSamplers * numSamplers;
-  pixel_color.r = pColor.x;
-  pixel_color.g = pColor.y;
-  pixel_color.b = pColor.z;
+  pixel_color = pColor;
   return pixel_color;
 }
 
-sf::Color 
+JDVector3 
 World::classSamplerRender(int x, int y, const float& zw, Ray& ray) {
-  static sf::Color pixel_color;
+  static JDVector3 pixel_color;
   static JDPoint pp; //sampler point in pixel
   static JDVector3 pColor = { 0,0,0 };
   pColor = { 0,0,0 };
@@ -322,20 +336,16 @@ World::classSamplerRender(int x, int y, const float& zw, Ray& ray) {
     ray.m_origin.y = pp.y;
     ray.m_origin.z = zw;
     pixel_color = m_pTracer->traceRay(ray);
-    pColor.x += pixel_color.r;
-    pColor.y += pixel_color.g;
-    pColor.z += pixel_color.b;
+    pColor += pixel_color;
   }
   pColor /= m_vp.m_numSamplers;
-  pixel_color.r = pColor.x;
-  pixel_color.g = pColor.y;
-  pixel_color.b = pColor.z;
+  pixel_color = pColor;
   return pixel_color;
 }
 
-sf::Color
+JDVector3
 World::RandomSamplingRender(int x, int y, const float& zw, Ray& ray) {
-  static sf::Color pixel_color;
+  static JDVector3 pixel_color;
   static JDPoint pp; //sampler point in pixel
   static JDVector3 pColor = { 0,0,0 };
   pColor = { 0,0,0 };
@@ -347,20 +357,16 @@ World::RandomSamplingRender(int x, int y, const float& zw, Ray& ray) {
     ray.m_origin.y = pp.y;
     ray.m_origin.z = zw;
     pixel_color = m_pTracer->traceRay(ray);
-    pColor.x += pixel_color.r;
-    pColor.y += pixel_color.g;
-    pColor.z += pixel_color.b;
+    pColor += pixel_color;
   }
   pColor /= m_vp.m_numSamplers;
-  pixel_color.r = pColor.x;
-  pixel_color.g = pColor.y;
-  pixel_color.b = pColor.z;
+  pixel_color = pColor;
   return pixel_color;
 }
 
-sf::Color World::JitteredSamplerRender(int x, int y, const float& zw, Ray& ray, int numSamplers)
+JDVector3 World::JitteredSamplerRender(int x, int y, const float& zw, Ray& ray, int numSamplers)
 {
-  static sf::Color pixel_color;
+  static JDVector3 pixel_color;
   static JDPoint pp; //sampler point in pixel
   static JDVector3 pColor = { 0,0,0 };
   pColor = { 0,0,0 };
@@ -373,15 +379,11 @@ sf::Color World::JitteredSamplerRender(int x, int y, const float& zw, Ray& ray, 
       ray.m_origin.z = zw;
 
       pixel_color = m_pTracer->traceRay(ray);
-      pColor.x += pixel_color.r;
-      pColor.y += pixel_color.g;
-      pColor.z += pixel_color.b;
+      pColor += pixel_color;
     }
   }
   pColor /= numSamplers * numSamplers;
-  pixel_color.r = pColor.x;
-  pixel_color.g = pColor.y;
-  pixel_color.b = pColor.z;
+  pixel_color = pColor;
   return pixel_color;
 }
 
@@ -430,27 +432,25 @@ World::hitObjects(const Ray& ray) {
   return sr;
 }
 
-sf::Color World::maxToGama(const sf::Color& color)
+JDVector3 World::maxToGama(const JDVector3& color)
 {
-  float maxValue = std::max(color.r, std::max(color.g, color.b));
+  float maxValue = std::max(color.x, std::max(color.y, color.z));
   auto c = color;
-  if (maxValue > 255)
+  if (maxValue > 1)
   {
-    c.r /= maxValue;
-    c.g /= maxValue;
-    c.b /= maxValue;
+    c /= maxValue;
   }
   return c;
 }
 
-sf::Color 
-World::clampToColor(const sf::Color& color) {
+JDVector3 
+World::clampToColor(const JDVector3& color) {
   auto c = color;
-  if (color.r > 255 || color.g > 255 || color.b > 255)
+  if (color.x > 1 || color.y > 1 || color.z > 1)
   {
-    c.r = 255;
-    c.g = 0;
-    c.b = 0;
+    c.x = 1;
+    c.y = 1;
+    c.z = 1;
   }
   return c;
 }

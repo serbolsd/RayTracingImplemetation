@@ -24,7 +24,7 @@ CThinLens::rayDirection(const JDPoint& pp, const JDPoint& lp) {
 
 void 
 CThinLens::renderScene(World* world) {
-  sf::Color pixel_color;
+  JDVector3 pixel_color;
   JDVector3 pColor = { 0,0,0 };
   ViewPlane vp(world->m_vp);
   Ray ray;
@@ -40,7 +40,7 @@ CThinLens::renderScene(World* world) {
 
   for (int x = 0; x < vp.m_width; x++) {
     for (int y = 0; y < vp.m_height; y++) {
-      pixel_color = sf::Color::Black;
+      pixel_color = { 0, 0, 0};
       pColor = { 0,0,0 };
       for (int n = 0; n < vp.m_numSamplers; ++n) {
         auto su = world->m_vp.m_pSampler->sampleUnitSquare();
@@ -59,15 +59,11 @@ CThinLens::renderScene(World* world) {
         ray.m_direction = rayDirection(pp, lp);
 
         pixel_color = world->m_pTracer->traceRay(ray);
-        pColor.x += pixel_color.r;
-        pColor.y += pixel_color.g;
-        pColor.z += pixel_color.b;
+        pColor += pixel_color;
       }
       pColor /= world->m_vp.m_numSamplers;
       //pColor *= m_exposureTime;
-      pixel_color.r = pColor.x;
-      pixel_color.g = pColor.y;
-      pixel_color.b = pColor.z;
+      pixel_color = pColor;
 
       world->displayPixel(x, y, pixel_color);
     }

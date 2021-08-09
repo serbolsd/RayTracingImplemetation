@@ -42,7 +42,7 @@ class CPinhole : public Camera {
   virtual void
   renderScene(World* world) override;
 
-  sf::Color
+  JDVector3
   classSamplerRender(int x, int y, World* world, Ray& ray);
 
   /**

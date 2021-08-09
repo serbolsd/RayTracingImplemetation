@@ -21,7 +21,7 @@ public:
   RayCast() {};
   ~RayCast() {};
 
-  virtual sf::Color
+  virtual JDVector3
   traceRay(const Ray& ray, int depth) override {
     ShadeRec sr(m_pWorld->hitObjects(ray));
     if (sr.m_hitAnObject)
@@ -29,7 +29,7 @@ public:
       sr.m_ray = ray;
       return sr.m_pMaterial->shade(sr);
     }
-    return sf::Color::Black;
+    return { 0, 0, 0};
   };
 
 

@@ -70,7 +70,7 @@ public:
   void
   displayPixel(const int row,
                 const int column,
-                const sf::Color& pixel_color);
+                const JDVector3& pixel_color);
 
   /**
    * @brief function to render without samplers
@@ -79,7 +79,7 @@ public:
    * @param zw is hard wired in
    * @param ray is the ray to shot
    */
-  sf::Color
+  JDVector3
   noSamplerRender(int x, int y, const float& zw, Ray& ray);
 
   /**
@@ -90,7 +90,7 @@ public:
    * @param ray is the ray to shot
    * @param numSamplers is number to sampling
    */
-  sf::Color
+  JDVector3
   regularSamplerRender(int x, int y, const float& zw, Ray& ray, int numSamplers);
 
   /**
@@ -101,7 +101,7 @@ public:
    * @param ray is the ray to shot
    * @param numSamplers is number to sampling
    */
-  sf::Color
+  JDVector3
   classSamplerRender(int x, int y, const float& zw, Ray& ray);
 
  /**
@@ -111,7 +111,7 @@ public:
    * @param zw is hard wired in
    * @param ray is the ray to shot
    */
-  sf::Color
+  JDVector3
   RandomSamplingRender(int x, int y, const float& zw, Ray& ray);
 
   /**
@@ -122,7 +122,7 @@ public:
    * @param ray is the ray to shot
    * @param numSamplers is number to sampling
    */
-  sf::Color
+  JDVector3
   JitteredSamplerRender(int x, int y, const float& zw, Ray& ray, int numSamplers);
 
   /**
@@ -145,11 +145,11 @@ public:
   ShadeRec
   hitObjects(const Ray& ray);
 
-  sf::Color
-  maxToGama(const sf::Color& color);
+  JDVector3
+  maxToGama(const JDVector3& color);
 
-  sf::Color
-  clampToColor(const sf::Color& color);
+  JDVector3
+  clampToColor(const JDVector3& color);
 
   std::vector<GeometricObject*> m_objects;
 
@@ -162,7 +162,7 @@ public:
   /**
    * @brief background color
    */
-  sf::Color m_backgroundColor = sf::Color::Black;
+  JDVector3 m_backgroundColor = { 0, 0 ,0 };
 
   /**
    * @brief a sphere

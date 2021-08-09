@@ -24,16 +24,14 @@ public:
     return { 0, 0, 0 };
   };
 
-  virtual sf::Color
+  virtual JDVector3
   L(ShadeRec& sr)override { 
     auto c = m_color;
-    c.r *= m_ls;
-    c.g *= m_ls;
-    c.b *= m_ls;
+    c *= m_ls;
     return c;
   };
 
   float m_ls = 1.0f;
 
-  sf::Color m_color = sf::Color::White;
+  JDVector3 m_color = { 1, 1, 1 };
 };

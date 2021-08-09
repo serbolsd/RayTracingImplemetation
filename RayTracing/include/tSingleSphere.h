@@ -26,7 +26,7 @@ class TSingleSphere : public Tracer
    * @param ray is the ray with check the hits
    * @return a color
    */
-  sf::Color
+  JDVector3
   traceRay(const Ray& ray) override {
     ShadeRec sr(m_pWorld);
     double t;
@@ -34,6 +34,6 @@ class TSingleSphere : public Tracer
     {
       return m_pWorld->m_sphere.color;
     }
-    return sf::Color::Black;
+    return { 0, 0, 0 };
   }
 };

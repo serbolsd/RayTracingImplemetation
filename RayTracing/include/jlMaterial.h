@@ -12,6 +12,7 @@
 #pragma once
 #include "Prerequisites.h"
 #include <SFML/Graphics/Color.hpp>
+#include <jdVector3.h>
 class ShadeRec;
 
 class Material
@@ -20,18 +21,18 @@ public:
   Material() {};
   ~Material() {};
 
-  virtual sf::Color
+  virtual JDVector3
   shade(ShadeRec& sr) {
-    return sf::Color::Black;
+    return { 0, 0, 0};
   };
 
-  virtual sf::Color
+  virtual JDVector3
   areaLightShade(ShadeRec& sr) {
-    return sf::Color::Black;
+    return { 0, 0, 0 };
   };
 
-  virtual sf::Color
+  virtual JDVector3
   pathShade(ShadeRec& sr) {
-    return sf::Color::Black;
+    return { 0, 0, 0 };
   };
 };

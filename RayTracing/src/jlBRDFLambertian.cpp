@@ -1,25 +1,21 @@
 #include "jlBRDFLambertian.h" 
 #include "shadeRec.h"
 
-sf::Color 
+JDVector3 
 BRDFLambertian::f(const ShadeRec& sr, const JDVector3& wi, const JDVector3& wo) {
   auto cd = m_cd;
-  cd.r *= m_kd * (1/PI);
-  cd.g *= m_kd * (1/PI);
-  cd.b *= m_kd * (1/PI);
+  cd *= m_kd * (1/PI);
   return cd;
 }
 
-sf::Color 
+JDVector3 
 BRDFLambertian::sampleF(const ShadeRec& sr, JDVector3& wi, const JDVector3& wo) {
-  return sf::Color::Black;
+  return { 0, 0, 0 };
 }
 
-sf::Color 
+JDVector3 
 BRDFLambertian::rho(const ShadeRec& sr, const JDVector3& wo) {
   auto cd = m_cd;
-  cd.r *= m_kd;
-  cd.g *= m_kd;
-  cd.b *= m_kd;
+  cd *= m_kd;
   return cd;
 }

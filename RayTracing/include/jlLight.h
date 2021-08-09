@@ -26,6 +26,6 @@ public:
   virtual JDVector3
   getDirection(ShadeRec& sr) = 0;
 
-  virtual sf::Color
+  virtual JDVector3
   L(ShadeRec& sr) = 0;
 };

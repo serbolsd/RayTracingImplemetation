@@ -29,12 +29,12 @@ public:
   }
 
   void
-  setCd(const sf::Color& c) {
+  setCd(const JDVector3& c) {
     m_ambientBRDF.m_cd = c;
     m_difuseBRDF.m_cd = c;
   }
 
-  virtual sf::Color
+  virtual JDVector3
   shade(ShadeRec& sr) override;
 
   BRDFLambertian m_ambientBRDF;

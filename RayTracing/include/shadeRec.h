@@ -61,7 +61,7 @@ class ShadeRec {
   /**
    * @brief use for debug
    */
-  sf::Color m_color; 
+  JDVector3 m_color; 
 
   /**
    * @brief world reference for shading
@@ -98,7 +98,7 @@ inline ShadeRec::ShadeRec(World* wr)
   : m_hitAnObject(false),
     m_localHitPoint(0),
     m_normal(),
-    m_color(sf::Color::Black),
+    m_color({ 0, 0, 0 }),
     m_world(wr){}
 
 //inline 

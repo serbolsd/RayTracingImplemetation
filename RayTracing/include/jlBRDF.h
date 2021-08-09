@@ -25,19 +25,19 @@ public:
   ~BRDF() {};
 
 
-  virtual sf::Color
+  virtual JDVector3
   f(const ShadeRec& sr, const JDVector3& wi, const JDVector3& wo) {
-    return sf::Color::Black;
+    return { 0, 0, 0};
   };
 
-  virtual sf::Color
+  virtual JDVector3
   sampleF(const ShadeRec& sr, JDVector3& wi, const JDVector3& wo) {
-    return sf::Color::Black;
+    return { 0, 0, 0};
   };
 
-  virtual sf::Color
+  virtual JDVector3
   rho(const ShadeRec& sr, const JDVector3& wo) {
-    return sf::Color::Black;
+    return { 0, 0, 0};
   };
 
   Sampler* m_pSampler = nullptr;

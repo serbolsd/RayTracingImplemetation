@@ -19,16 +19,16 @@ public:
   BRDFLambertian() {};
   ~BRDFLambertian() {};
 
-  virtual sf::Color
+  virtual JDVector3
   f(const ShadeRec& sr, const JDVector3& wi, const JDVector3& wo) override;
 
-  virtual sf::Color
+  virtual JDVector3
   sampleF(const ShadeRec& sr, JDVector3& wi, const JDVector3& wo) override;
 
-  virtual sf::Color
+  virtual JDVector3
   rho(const ShadeRec& sr, const JDVector3& wo) override;
 
   float m_kd;
-  sf::Color m_cd;
+  JDVector3 m_cd;
 
 };
