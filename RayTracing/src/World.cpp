@@ -16,8 +16,10 @@
 //Lights
 #include "jlAmbientLight.h"
 #include "jlPointLight.h"
+//Materials
 #include "jlMaterial.h"
 #include "jlMMatte.h"
+#include "jlMPhong.h"
 //Util
 #include <jdPoint.h>
 
@@ -137,14 +139,30 @@ void World::build(const int width, const int height) {
   matte->setKa(0.25);
   matte->setKd(0.65);
   matte->setCd(JDVector3(1,1,0));
-  
+
+  MPhong* phong = new MPhong();
+  phong->setKa(0.25);
+  phong->setKd(0.6);
+  phong->setKS(0.2);
+  phong->setSExp(100);
+  phong->setCd(JDVector3(1, 1, 0));
+
   Sphere* sp = new Sphere();
-  sp->m_position = { 10,-5,0 };
+  sp->m_position = { 10,-50,0 };
   sp->m_radius = 80;
   sp->color = { 100,100,255 };
   sp->color.normalize();
-  sp->m_pMaterial = matte;
+  sp->m_pMaterial = phong;
+  
   addObject(sp);
+
+  //Point3D min(-60, 0, -60);
+  //Point3D max(60, 120, 60);
+  //Point3D pos(0, 0, 0);
+  //Box* bs = new Box(min, max, pos);
+  //bs->color = { 1, 0, 0 };
+  //bs->m_pMaterial = matte;
+  //addObject(bs);
 
   openWindow(width, height);
 }
@@ -162,7 +180,9 @@ void World::renderScene() {
       if (event.type == sf::Event::Closed)
         m_window->close();
     }
+
     sf::Color backGround(m_backgroundColor.x, m_backgroundColor.y, m_backgroundColor.z);
+    m_camera->renderScenePerFrame(this);
     m_window->clear(backGround);
     m_window->draw(m_sprite);
     m_window->display();
@@ -209,7 +229,7 @@ void World::openWindow(const int width, const int height)
   m_sprite.setTexture(m_texture);
   m_sprite.setOrigin(0,height);
   m_sprite.setScale({1,-1});
-  updateRender();
+  //updateRender();
 }
 
 void World::updateRender() {

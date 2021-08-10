@@ -40,6 +40,12 @@ class Camera {
   renderScene(World* world) {};
 
   /**
+   * @brief function to render the scene
+   */
+  virtual void
+  renderScenePerFrame(World* world) {};
+
+  /**
    * @brief the camera's position
    */
   Point3D m_eye;

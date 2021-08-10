@@ -62,7 +62,37 @@ CPinhole::renderScene(World* world) {
   }
 }
 
-JDVector3 
+void 
+CPinhole::renderScenePerFrame(World* world) {
+  ViewPlane vp(world->m_vp);
+  if (vp.m_height - 1 == y)
+  {
+    return;
+  }
+  JDVector3 pixel_color;
+  JDVector3 pColor = { 0,0,0 };
+  Ray ray;
+  uint32 depth;
+  JDPoint sp;
+  JDPoint pp;
+
+  vp.m_pixelSize /= m_zoom;
+  ray.m_origin = pointToVector3D(m_eye);
+  pixel_color = { 0, 0, 0 };
+
+  //Class Sampler
+  pixel_color = classSamplerRender(x, y, world, ray);
+  world->displayPixel(x, y, pixel_color);
+
+  ++x;
+  if (vp.m_width <= x)
+  {
+    ++y;
+    x = 0;
+  }
+}
+
+JDVector3
 CPinhole::classSamplerRender(int x, int y, World* world, Ray& ray) {
   {
     static JDVector3 pixel_color;

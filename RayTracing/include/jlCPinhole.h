@@ -42,6 +42,12 @@ class CPinhole : public Camera {
   virtual void
   renderScene(World* world) override;
 
+  /**
+   * @brief function to render the scene
+   */
+  virtual void
+  renderScenePerFrame(World* world) override;
+
   JDVector3
   classSamplerRender(int x, int y, World* world, Ray& ray);
 
@@ -54,5 +60,8 @@ class CPinhole : public Camera {
    * @brief the zoom factor
    */
   float m_zoom;
+
+  int x = 0;
+  int y = 0;
 };
 

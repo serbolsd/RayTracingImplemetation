@@ -105,6 +105,12 @@
     <ClCompile Include="src\jlMMatte.cpp">
       <Filter>Archivos de origen\Materials</Filter>
     </ClCompile>
+    <ClCompile Include="src\jlBRDFGlossySpecular.cpp">
+      <Filter>Archivos de origen\BRDF</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jlMPhong.cpp">
+      <Filter>Archivos de origen\Materials</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ray.h">
@@ -192,6 +198,12 @@
       <Filter>Archivos de encabezado\BRDF</Filter>
     </ClInclude>
     <ClInclude Include="include\jlMMatte.h">
+      <Filter>Archivos de encabezado\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlBRDFGlossySpecular.h">
+      <Filter>Archivos de encabezado\BRDF</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlMPhong.h">
       <Filter>Archivos de encabezado\Materials</Filter>
     </ClInclude>
   </ItemGroup>
