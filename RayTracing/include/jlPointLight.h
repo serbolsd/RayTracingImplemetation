@@ -29,6 +29,12 @@ public:
     return c;
   }
 
+  virtual bool
+  castShadows() override;
+
+  virtual bool
+  inShadow(const Ray& ray, const ShadeRec& sr) override;
+
   float m_ls = 1.0f;
   JDVector3 m_color;
   JDVector3 m_location;

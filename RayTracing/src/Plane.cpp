@@ -20,5 +20,17 @@ Plane::hit(const Ray& ray, double& tmin, ShadeRec& s) {
     return (true);
   }
   else
-    return (false);
+    return false;
+}
+
+bool 
+Plane::shadowHit(const Ray& ray, float& tmin) {
+  auto vec = m_point - ray.m_origin;
+  float t = vec.dot(m_normal) / (ray.m_direction.dot(m_normal));
+  if (t > kEpsilon) {
+    tmin = t;
+    return true;
+  }
+  else
+    return false;
 }

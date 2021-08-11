@@ -10,11 +10,7 @@ Cylinder::hit(const Ray& ray, double& t, ShadeRec& s) {
   auto dir = ray.m_direction;
   dir.y = 0;
   dir.normalize();
-  //double a = ray.m_direction.dot(ray.m_direction);
-  //double a = ray.m_direction.x * ray.m_direction.x + ray.m_direction.z * ray.m_direction.z;
   double a = dir.dot(dir);
-  //double b = 2.0 * temp.dot(ray.m_direction);
-  //double b = 2.0 * (ray.m_direction.x);
   double b = 2.0 * temp.dot(dir);
   double c = temp.dot(temp) - (m_radius * m_radius);
   double disc = b * b - 4.0 * a * c;

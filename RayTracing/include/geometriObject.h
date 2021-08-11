@@ -25,6 +25,9 @@ class GeometricObject {
   virtual bool
   hit(const Ray& ray, double& tmin, ShadeRec& sr) { return false; };
 
+		virtual bool
+		shadowHit(const Ray& ray, float& tmin) { return false; };
+
 
 		/**
 			* @brief color use for debug

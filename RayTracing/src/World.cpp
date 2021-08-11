@@ -118,7 +118,7 @@ void World::build(const int width, const int height) {
   //pTLCam->m_lendsRadius = 0;
   //m_camera = pTLCam;
 
-  m_camera->m_eye = {0, 0, 500 };
+  m_camera->m_eye = {0, 400, 1000 };
   m_camera->m_lookAt = {0,0,0};
   m_camera->m_up = {0,1,0};
   m_camera->m_exposureTime = 1;
@@ -130,8 +130,8 @@ void World::build(const int width, const int height) {
   m_lights.push_back(ambient);
 
   PointLight* pl = new PointLight;
-  pl->m_ls = 3;
-  pl->m_location = { 100, 50, 150 };
+  pl->m_ls = 4;
+  pl->m_location = { 400, 200, 400 };
   pl->m_color = { 1, 1, 1 };
   m_lights.push_back(pl);
 
@@ -148,13 +148,37 @@ void World::build(const int width, const int height) {
   phong->setCd(JDVector3(1, 1, 0));
 
   Sphere* sp = new Sphere();
-  sp->m_position = { 10,-50,0 };
+  sp->m_position = { 10,0,0 };
   sp->m_radius = 80;
   sp->color = { 100,100,255 };
   sp->color.normalize();
   sp->m_pMaterial = phong;
   
   addObject(sp);
+
+  MPhong* phong2 = new MPhong();
+  phong2->setKa(0.25);
+  phong2->setKd(0.6);
+  phong2->setKS(0.2);
+  phong2->setSExp(100);
+  phong2->setCd(JDVector3(1, 0, 1));
+  
+  Plane* plane = new Plane(Point3D(0, -80, 0), JDVector3(0, 1, 0).getnormalize());
+  plane->m_pMaterial = phong2;
+  plane->color = JDVector3(0, 100, 0);
+  addObject(plane);
+  
+  MPhong* phong3 = new MPhong();
+  phong3->setKa(0.25);
+  phong3->setKd(0.6);
+  phong3->setKS(0.2);
+  phong3->setSExp(100);
+  phong3->setCd(JDVector3(0, 1, 0));
+  
+  plane = new Plane(Point3D(0, 0, -120), JDVector3(0, 0, 1).getnormalize());
+  plane->m_pMaterial = phong3;
+  plane->color = JDVector3(0, 100, 0);
+  addObject(plane);
 
   //Point3D min(-60, 0, -60);
   //Point3D max(60, 120, 60);

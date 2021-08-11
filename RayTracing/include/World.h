@@ -199,4 +199,6 @@ public:
   Light* m_pAmbientlight;
   Vector<Light*> m_lights;
 
+  bool m_castShadows = true;
+
 };

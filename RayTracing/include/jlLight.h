@@ -15,6 +15,7 @@
 #include <SFML/Graphics/Color.hpp>
 
 class ShadeRec;
+class Ray;
 
 class Light
 {
@@ -28,4 +29,10 @@ public:
 
   virtual JDVector3
   L(ShadeRec& sr) = 0;
+
+  virtual bool
+  castShadows() { return true; };
+
+  virtual bool
+  inShadow(const Ray& ray, const ShadeRec& sr) { return false; };
 };
