@@ -17,9 +17,19 @@ Matte::shade(ShadeRec& sr) {
     float ndotwi = sr.m_normal.dot(wi);
     if (ndotwi > 0.0f)
     {
-      auto df = m_difuseBRDF.f(sr, wo, wi);
-      auto cl = sr.m_world->m_lights[i]->L(sr);
-      l += df * cl * ndotwi;
+
+      bool inShadow = false;
+      if (sr.m_world->m_castShadows) {
+        JDVector3 origin = { (float)sr.m_HitPoint.x, (float)sr.m_HitPoint.y, (float)sr.m_HitPoint.z };
+        Ray shadowRay(origin, wi);
+        inShadow = sr.m_world->m_lights[i]->inShadow(shadowRay, sr);
+      }
+
+      if (!inShadow) {
+        auto df = m_difuseBRDF.f(sr, wo, wi);
+        auto cl = sr.m_world->m_lights[i]->L(sr);
+        l += df * cl * ndotwi;
+      }
     }
   }
   return l;

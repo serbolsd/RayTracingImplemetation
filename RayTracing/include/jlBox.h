@@ -42,6 +42,9 @@ class Box : public GeometricObject {
   virtual bool
   hit(const Ray& ray, double& t, ShadeRec& s) override;
 
+  bool
+		shadowHit(const Ray& ray, float& tmin) override;
+
   /**
    * @brief defaul destructor
    */

@@ -15,7 +15,7 @@
 #include "jlBRDFLambertian.h"
 class Matte : public Material
 {
-public:
+ public:
   Matte() {};
   ~Matte() {};
 

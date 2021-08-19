@@ -16,6 +16,7 @@
 //Lights
 #include "jlAmbientLight.h"
 #include "jlPointLight.h"
+#include "jlAmbientOccluderLight.h"
 //Materials
 #include "jlMaterial.h"
 #include "jlMMatte.h"
@@ -47,15 +48,15 @@ void World::build(const int width, const int height) {
   m_vp.m_pixelSize = 1;
   m_vp.m_gamma = 1.0f;
   m_vp.m_invGamma = 1.0f / m_vp.m_gamma;
-  m_vp.m_numSamplers = 200;
+  m_vp.m_numSamplers = 64;
   //m_vp.setSampler(new SRegular(8));
-  auto sampler = new SJittered(16);
+  auto sampler = new SJittered(64);
   //auto sampler = new SRegular(0);
   m_vp.setSampler(sampler);
   m_vp.m_pSampler->m_numSets = width * height;
-  m_vp.m_pSampler->generateSamples();
-  m_vp.m_pSampler->setupShuffledIndices();
-  m_vp.m_pSampler->mapSamplerToUnitDisk();
+  sampler->generateSamples();
+  sampler->setupShuffledIndices();
+  sampler->mapSamplerToUnitDisk();
 
   //m_pTracer = new TSingleSphere();
   //m_pTracer = new TMultipleObjects();
@@ -118,7 +119,7 @@ void World::build(const int width, const int height) {
   //pTLCam->m_lendsRadius = 0;
   //m_camera = pTLCam;
 
-  m_camera->m_eye = {0, 400, 1000 };
+  m_camera->m_eye = {0, 400, 2000 };
   m_camera->m_lookAt = {0,0,0};
   m_camera->m_up = {0,1,0};
   m_camera->m_exposureTime = 1;
@@ -130,64 +131,207 @@ void World::build(const int width, const int height) {
   m_lights.push_back(ambient);
 
   PointLight* pl = new PointLight;
-  pl->m_ls = 4;
-  pl->m_location = { 400, 200, 400 };
+  pl->m_ls = 1.8;
+  pl->m_location = { 200, 400, 800 };
   pl->m_color = { 1, 1, 1 };
   m_lights.push_back(pl);
 
-  Matte* matte = new Matte;
-  matte->setKa(0.25);
-  matte->setKd(0.65);
-  matte->setCd(JDVector3(1,1,0));
+  PointLight* pl2 = new PointLight;
+  pl2->m_ls = 1.8;
+  pl2->m_location = { -200, 400, 800 };
+  pl2->m_color = { 1, 1, 1 };
+  m_lights.push_back(pl2);
 
-  MPhong* phong = new MPhong();
-  phong->setKa(0.25);
-  phong->setKd(0.6);
-  phong->setKS(0.2);
-  phong->setSExp(100);
-  phong->setCd(JDVector3(1, 1, 0));
+  PointLight* pl3 = new PointLight;
+  pl3->m_ls = 0.8;
+  pl3->m_location = { 0, 800, 0 };
+  pl3->m_color = { 1, 0, 0 };
+  m_lights.push_back(pl3);
 
-  Sphere* sp = new Sphere();
-  sp->m_position = { 10,0,0 };
-  sp->m_radius = 80;
-  sp->color = { 100,100,255 };
-  sp->color.normalize();
-  sp->m_pMaterial = phong;
+  //AmbientOccluderL* occluder = new AmbientOccluderL;
+  //occluder->m_ls = 1.0f;
+  //occluder->m_color = { 1,1,1 };
+  //occluder->m_minAmount = {0.25f, 0.25f, 0.25f };
+  //occluder->setSampler(sampler);
+  //m_pAmbientlight = occluder;
+  //m_lights.push_back(occluder);
+
+  //Matte* matte = new Matte;
+  //matte->setKa(0.40);
+  //matte->setKd(0.60);
+  //matte->setCd(JDVector3(1,1,0));
+
+  //MPhong* phong = new MPhong();
+  //phong->setKa(0.25);
+  //phong->setKd(0.6);
+  //phong->setKS(0.2);
+  //phong->setSExp(100);
+  //phong->setCd(JDVector3(1, 1, 0));
   
-  addObject(sp);
+  //Sphere* sp = new Sphere();
+  //sp->m_position = { 0,0,0 };
+  //sp->m_radius = 80;
+  //sp->color = { 100,100,255 };
+  //sp->color.normalize();
+  ////sp->m_pMaterial = phong;
+  //sp->m_pMaterial = matte;
+  
+  //addObject(sp);
 
-  MPhong* phong2 = new MPhong();
-  phong2->setKa(0.25);
-  phong2->setKd(0.6);
-  phong2->setKS(0.2);
-  phong2->setSExp(100);
-  phong2->setCd(JDVector3(1, 0, 1));
+  Matte* matte2 = new Matte;
+  matte2->setKa(0.25f);
+  matte2->setKd(0.1f);
+  matte2->setCd(JDVector3(1, 0, 1));
+  //MPhong* phong2 = new MPhong();
+  //phong2->setKa(0.25);
+  //phong2->setKd(0.6);
+  //phong2->setKS(0.2);
+  //phong2->setSExp(100);
+  //phong2->setCd(JDVector3(1, 0, 1));
   
   Plane* plane = new Plane(Point3D(0, -80, 0), JDVector3(0, 1, 0).getnormalize());
-  plane->m_pMaterial = phong2;
-  plane->color = JDVector3(0, 100, 0);
+  //plane->m_pMaterial = phong2;
+  plane->m_pMaterial = matte2;
+  plane->color = JDVector3(0, 1, 0);
   addObject(plane);
   
+  //Matte* matte3 = new Matte;
+  //matte3->setKa(0.25f);
+  //matte3->setKd(0.65f);
+  //matte3->setCd(JDVector3(0, 1, 0));
   MPhong* phong3 = new MPhong();
   phong3->setKa(0.25);
-  phong3->setKd(0.6);
-  phong3->setKS(0.2);
+  phong3->setKd(0.1);
+  phong3->setKS(0.1);
   phong3->setSExp(100);
   phong3->setCd(JDVector3(0, 1, 0));
   
-  plane = new Plane(Point3D(0, 0, -120), JDVector3(0, 0, 1).getnormalize());
+  plane = new Plane(Point3D(0, 0, -1200), JDVector3(0, 0, 1).getnormalize());
+  //plane->m_pMaterial = phong3;
   plane->m_pMaterial = phong3;
   plane->color = JDVector3(0, 100, 0);
   addObject(plane);
 
+  //MPhong* phong4 = new MPhong();
+  //phong4->setKa(0.25);
+  //phong4->setKd(0.6);
+  //phong4->setKS(0.2);
+  //phong4->setSExp(100);
+  //phong4->setCd(JDVector3(0.5, 1, 0.5));
+  //
   //Point3D min(-60, 0, -60);
   //Point3D max(60, 120, 60);
-  //Point3D pos(0, 0, 0);
+  //Point3D pos(-180, -80, 100);
   //Box* bs = new Box(min, max, pos);
   //bs->color = { 1, 0, 0 };
-  //bs->m_pMaterial = matte;
+  //bs->m_pMaterial = phong4;
   //addObject(bs);
+  //
+  //MPhong* phong5 = new MPhong();
+  //phong5->setKa(0.25);
+  //phong5->setKd(0.6);
+  //phong5->setKS(0.2);
+  //phong5->setSExp(100);
+  //phong5->setCd(JDVector3(0.5, 0.5, 1));
+  //
+  //
+  //pos = { 180, -80, 100 };
+  //
+  //bs = new Box(min, max, pos);
+  //bs->color = { 1, 0, 0 };
+  //bs->m_pMaterial = phong5;
+  //addObject(bs);
+  //Cylinder* cs = new Cylinder(80.f, 200, pos);
+  //cs->color = { 0.5, 0.5, 1 };
+  //cs->m_pMaterial = phong5;
+  //addObject(cs);
 
+  Point3D min(-60, 0, -60);
+  Point3D max(60, 400, 60);
+  Point3D pos(-800, -80, -600);
+  for (int i = 0; i < 5; ++i) {
+    max.y -= 60;
+    pos.z += 240;
+    pos.x += 120;
+    Box* bs = new Box(min, max, pos);
+    JDVector3 color = { randomFloat(),  randomFloat(), randomFloat() };
+    if (i % 2 == 0) {
+      MPhong* newPhong = new MPhong();
+      newPhong->setKa(0.25f);
+      newPhong->setKd(0.6f);
+      newPhong->setKS(0.2f);
+      newPhong->setSExp(100);
+      newPhong->setCd(color);
+      bs->m_pMaterial = newPhong;
+    }
+    else {
+      Matte* newMatte = new Matte;
+      newMatte->setKa(0.25f);
+      newMatte->setKd(0.75f);
+      newMatte->setCd(color);
+      bs->m_pMaterial = newMatte;
+    }
+    addObject(bs);
+  }
+
+  pos = { 0, 120, -600 };
+  float ratio = 200;
+  for (int i = 0; i < 5; ++i) {
+    Sphere* sp = new Sphere();
+    pos.z += 240;
+    pos.y -= 30;
+    ratio -= 30;
+    sp->m_position = pos;
+    sp->m_radius = ratio;
+    JDVector3 color = { randomFloat(),  randomFloat(), randomFloat() };
+    if (i % 2 == 0) {
+      MPhong* newPhong = new MPhong();
+      newPhong->setKa(0.25f);
+      newPhong->setKd(0.6f);
+      newPhong->setKS(0.2f);
+      newPhong->setSExp(100);
+      newPhong->setCd(color);
+      sp->m_pMaterial = newPhong;
+    }
+    else {
+      Matte* newMatte = new Matte;
+      newMatte->setKa(0.25f);
+      newMatte->setKd(0.65f);
+      newMatte->setCd(color);
+      sp->m_pMaterial = newMatte;
+    }
+    addObject(sp);
+  }
+
+  pos = { 800, -80, -600 };
+  float Cheight = 400;
+  for (int i = 0; i < 5; ++i) {
+
+    pos.z += 240;
+    pos.x -= 120;
+    Cheight -= 60;
+    Cylinder* cs = new Cylinder(80.f, Cheight, pos);
+    //pos.y -= 10;
+    JDVector3 color = { randomFloat(),  randomFloat(), randomFloat() };
+    if (i % 2 == 0) {
+      MPhong* newPhong = new MPhong();
+      newPhong->setKa(0.25f);
+      newPhong->setKd(0.6f);
+      newPhong->setKS(0.2f);
+      newPhong->setSExp(100);
+      newPhong->setCd(color);
+      cs->m_pMaterial = newPhong;
+    }
+    else {
+      Matte* newMatte = new Matte;
+      newMatte->setKa(0.25f);
+      newMatte->setKd(0.65f);
+      newMatte->setCd(color);
+      cs->m_pMaterial = newMatte;
+    }
+    addObject(cs);
+  }
+  
   openWindow(width, height);
 }
 

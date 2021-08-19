@@ -38,3 +38,43 @@ Sampler::mapSamplerToUnitDisk() {
     diskSamples[j].y = r * sin(phi);
   }
 }
+
+void 
+Sampler::mapSamplesToHemisphere(const float& e) {
+  int size = m_samples.size();
+  m_hemisphereSamples.reserve(m_numSamples * m_numSets);
+  for (int j = 0; j < size; j++) {
+    float cos_phi = cos(2.0 * PI * m_samples[j].x);
+    float sin_phi = sin(2.0 * PI * m_samples[j].x);
+    float cos_theta = pow((1.0 - m_samples[j].y), 1.0 / (e + 1.0));
+    float sin_theta = sqrt(1.0 - cos_theta * cos_theta);
+    float pu = sin_theta * cos_phi;
+    float pv = sin_theta * sin_phi;
+    float pw = cos_theta;
+    //if (pw>0.5f)
+    //{
+    //  pw = 1;
+    //}
+    //if (pw < -0.5f)
+    //{
+    //  pw = -1;
+    //}
+    //if (pu > 0.5f)
+    //{
+    //  pu = 1;
+    //}
+    //if (pu < -0.5f)
+    //{
+    //  pu = -1;
+    //}
+    //if (pv > 0.5f)
+    //{
+    //  pv = 1;
+    //}
+    //if (pv < -0.5f)
+    //{
+    //  pv = -1;
+    //}
+    m_hemisphereSamples.push_back(JDVector3(pu, pv, pw));
+  }
+}

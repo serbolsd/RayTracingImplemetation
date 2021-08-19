@@ -13,8 +13,9 @@
 #include "Prerequisites.h"
 #include <jdPoint.h>
 #include <jdVector2.h>
-class Sampler
-{
+#include <jdVector3.h>
+
+class Sampler {
  public:
   /**
    * @brief default constructor
@@ -75,13 +76,26 @@ class Sampler
    */
   JDVector2
   sampleUnitDisk() {
-    if (m_count % m_numSamples == 0) // start of a new pixel
+    if (m_countDisk % m_numSamples == 0) // start of a new pixel
       m_jump = (randomInt() % m_numSets) * m_numSamples;
-    return (diskSamples[m_jump + m_count++ % m_numSamples]);
+    return (diskSamples[m_jump + m_countDisk++ % m_numSamples]);
+  }
+
+  /**
+   * @brief get next sample on hemisphere
+   */
+  JDVector3
+  sampleHemisphere() {
+    if (m_countHemisphere % m_numSamples == 0) // start of a new pixel
+      m_jump = (randomInt() % m_numSets) * m_numSamples;
+    return (m_hemisphereSamples[m_jump + m_countHemisphere++ % m_numSamples]);
   }
 
   void
   mapSamplerToUnitDisk();
+
+  void
+  mapSamplesToHemisphere(const float& e);
 
  public:
   /**
@@ -98,7 +112,16 @@ class Sampler
    * @brief sample points on a unit square
    */
   std::vector<JDVector2> m_samples;
+
+  /**
+   * @brief sample points on a unit disk
+   */
   std::vector<JDVector2> diskSamples;
+
+  /**
+   * @brief sample points on a hemisphere
+   */
+  std::vector<JDVector3> m_hemisphereSamples;
 
   /**
    * @brief shuffled samples array indices
@@ -108,7 +131,9 @@ class Sampler
   /**
    * @brief the current number of sample points used
    */
-  unsigned long m_count;
+  unsigned long m_count = 0;
+  unsigned long m_countDisk = 0;
+  unsigned long m_countHemisphere = 0;
 
   /**
    * @brief random index jump

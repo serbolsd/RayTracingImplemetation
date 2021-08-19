@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\jlAmbientOccluderLight.cpp" />
     <ClCompile Include="src\jlBox.cpp" />
     <ClCompile Include="src\jlBRDFGlossySpecular.cpp" />
     <ClCompile Include="src\jlBRDFLambertian.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="src\jlPointLight.cpp" />
     <ClCompile Include="src\jlQuaternion.cpp" />
     <ClCompile Include="src\jlSampler.cpp" />
+    <ClCompile Include="src\jlSJittered.cpp" />
     <ClCompile Include="src\Plane.cpp" />
     <ClCompile Include="src\point3D.cpp" />
     <ClCompile Include="src\Source.cpp" />
@@ -173,6 +175,7 @@
   <ItemGroup>
     <ClInclude Include="include\geometriObject.h" />
     <ClInclude Include="include\jlAmbientLight.h" />
+    <ClInclude Include="include\jlAmbientOccluderLight.h" />
     <ClInclude Include="include\jlBox.h" />
     <ClInclude Include="include\jlBRDF.h" />
     <ClInclude Include="include\jlBRDFGlossySpecular.h" />

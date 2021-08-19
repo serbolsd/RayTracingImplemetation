@@ -111,6 +111,12 @@
     <ClCompile Include="src\jlMPhong.cpp">
       <Filter>Archivos de origen\Materials</Filter>
     </ClCompile>
+    <ClCompile Include="src\jlAmbientOccluderLight.cpp">
+      <Filter>Archivos de origen\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jlSJittered.cpp">
+      <Filter>Archivos de origen\Samplers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ray.h">
@@ -205,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="include\jlMPhong.h">
       <Filter>Archivos de encabezado\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="include\jlAmbientOccluderLight.h">
+      <Filter>Archivos de encabezado\Lights</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

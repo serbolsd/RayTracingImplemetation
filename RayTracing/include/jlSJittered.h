@@ -32,28 +32,16 @@ class SJittered : public Sampler {
    * @brief default destructor
    */
   ~SJittered() {};
-
-
- private:
-
   /**
    * @brief generate sample patterns in a unit square
    */
   virtual void
   generateSamples() override;
 
+ private:
+
+
+
 };
 
-FORCEINLINE void SJittered::generateSamples() {
-  int n = (int)sqrt(m_numSamples);
-  for (int p = 0; p < m_numSets; p++) {
-    for (int j = 0; j < n; j++) {
-      for (int k = 0; k < n; k++) {
-        float r1 = randomFloat();
-        float r2 = randomFloat();
-        JDVector2 sp((k + r1) / n, (j + r2) / n);
-        m_samples.push_back(sp);
-      }
-    }
-  }
-}
+
